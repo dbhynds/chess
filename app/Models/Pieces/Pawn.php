@@ -10,20 +10,11 @@ class Pawn extends Piece
 {
     public function possibleMoves(): array
     {
-        if ($this->isWhite()) {
-            return [
-                Move::make($this)->up(1),
-                Move::make($this)->up(2),
-                Move::make($this)->up(1)->left(1),
-                Move::make($this)->up(1)->right(1),
-            ];
-        } else {
-            return [
-                Move::make($this)->down(1),
-                Move::make($this)->down(2),
-                Move::make($this)->down(1)->left(1),
-                Move::make($this)->down(1)->right(1),
-            ];
-        }
+        return [
+            // White
+            [-1, 1], [0, 1], [0, 2], [1, 1],
+            // Black
+            [-1, -1], [0, -1], [0, -2], [1, -1],
+        ];
     }
 }
