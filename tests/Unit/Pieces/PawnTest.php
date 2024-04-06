@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Pieces;
 
+use App\Models\Board\Column;
+use App\Models\Board\Row;
 use App\Models\Board\Space;
 use App\Models\Pieces\Pawn;
 use App\Models\Players\Color;
@@ -13,7 +15,7 @@ class PawnTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->space = new Space('A', 1);
+        $this->space = new Space(Row::A, Column::i1);
     }
 
     public function test_instantiates(): void
@@ -29,18 +31,10 @@ class PawnTest extends TestCase
         $this->assertEquals(Color::White, $piece->color());
     }
 
-    public function test_is_on_A1(): void
+    public function test_returns_space(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
-        $this->assertTrue($piece->isOn($this->space));
-    }
-
-    public function test_is_not_on_A1(): void
-    {
-        $space = new Space('H', 8);
-        $piece = new Pawn(Color::White, $this->space);
-
-        $this->assertFalse($piece->isOn($space));
+        $this->assertEquals($this->space, $piece->space());
     }
 }

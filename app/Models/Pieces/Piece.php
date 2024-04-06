@@ -11,9 +11,9 @@ abstract class Piece
     {
     }
 
-    public function isOn(Space $space): bool
+    public function space(): Space
     {
-        return $space->name() === $this->space->name();
+        return $this->space;
     }
 
     public function color(): Color

@@ -2,7 +2,14 @@
 
 namespace App\Models\Board;
 
-class Row
+enum Row: string
 {
-    public const NAMES = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+    case A = 'A';
+    case B = 'B';
+    case C = 'C';
+    case D = 'D';
+    case E = 'E';
+    case F = 'F';
+    case G = 'G';
+    case H = 'H';
 }

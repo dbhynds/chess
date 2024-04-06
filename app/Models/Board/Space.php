@@ -4,22 +4,27 @@ namespace App\Models\Board;
 
 class Space
 {
-    public function __construct(private string $row, private int $column)
+    public function __construct(private Row $row, private Column $column)
     {
     }
 
-    public function row(): string
+    public function row(): Row
     {
         return $this->row;
     }
 
-    public function column(): string
+    public function column(): Column
     {
         return $this->column;
     }
 
     public function name(): string
     {
-        return $this->row().$this->column();
+        return self::named($this->row(), $this->column());
+    }
+
+    public static function named(Row $row, Column $column): string
+    {
+        return $row->value.$column->value;
     }
 }

@@ -2,7 +2,14 @@
 
 namespace App\Models\Board;
 
-class Column
+enum Column: int
 {
-    public const NAMES = [1, 2, 3, 4, 5, 6, 7, 8];
+    case i1 = 1;
+    case i2 = 2;
+    case i3 = 3;
+    case i4 = 4;
+    case i5 = 5;
+    case i6 = 6;
+    case i7 = 7;
+    case i8 = 8;
 }

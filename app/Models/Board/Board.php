@@ -11,9 +11,9 @@ class Board
     public function __construct()
     {
         $spaces = [];
-        foreach (Row::NAMES as $rowName) {
-            foreach (Column::NAMES as $columnName) {
-                $space = new Space($rowName, $columnName);
+        foreach (Row::cases() as $row) {
+            foreach (Column::cases() as $column) {
+                $space = new Space($row, $column);
                 $spaces[$space->name()] = $space;
             }
         }
@@ -26,5 +26,10 @@ class Board
     public function spaces(): Collection
     {
         return $this->spaces;
+    }
+
+    public function space(Row $row, Column $column): Space
+    {
+        return $this->spaces()[Space::named($row, $column)];
     }
 }
