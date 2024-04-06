@@ -18,13 +18,13 @@ class Space
         return $this->column;
     }
 
-    public function name(): string
-    {
-        return self::named($this->row(), $this->column());
-    }
-
     public static function named(Row $row, Column $column): string
     {
         return $row->value.$column->value;
+    }
+
+    public function name(): string
+    {
+        return self::named($this->row(), $this->column());
     }
 }

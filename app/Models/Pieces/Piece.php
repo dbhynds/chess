@@ -4,9 +4,12 @@ namespace App\Models\Pieces;
 
 use App\Models\Board\Space;
 use App\Models\Players\Color;
+use App\Models\Traits\HasAColor;
 
 abstract class Piece
 {
+    use HasAColor;
+
     public function __construct(private Color $color, private Space $space)
     {
     }
@@ -16,8 +19,5 @@ abstract class Piece
         return $this->space;
     }
 
-    public function color(): Color
-    {
-        return $this->color;
-    }
+    abstract function possibleMoves(): array;
 }

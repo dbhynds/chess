@@ -15,7 +15,7 @@ class PawnTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->space = new Space(Row::A, Column::i1);
+        $this->space = new Space(Row::B, Column::i1);
     }
 
     public function test_instantiates(): void
@@ -24,17 +24,24 @@ class PawnTest extends TestCase
         $this->assertInstanceOf(Pawn::class, $piece);
     }
 
-    public function test_returns_color(): void
+    public function test_color_returns_color(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertEquals(Color::White, $piece->color());
     }
 
-    public function test_returns_space(): void
+    public function test_space_returns_space(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertEquals($this->space, $piece->space());
+    }
+
+    public function test_possibleMoves_returns_possible_moves_for_white(): void
+    {
+        $piece = new Pawn(Color::White, $this->space);
+
+        $this->assertCount(4, $piece->possibleMoves());
     }
 }

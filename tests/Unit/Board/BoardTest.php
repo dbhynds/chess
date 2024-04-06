@@ -16,14 +16,14 @@ class BoardTest extends TestCase
         $this->assertInstanceOf(Board::class, $board);
     }
 
-    public function test_returns_spaces(): void
+    public function test_spaces_returns_spaces(): void
     {
         $board = app(Board::class);
 
         $this->assertEquals(64, $board->spaces()->count());
     }
 
-    public function test_returns_a_space(): void
+    public function test_space_returns_a_space(): void
     {
         $board = app(Board::class);
 
