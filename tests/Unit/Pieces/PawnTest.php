@@ -40,8 +40,16 @@ class PawnTest extends TestCase
 
     public function test_possibleMoves_returns_possible_moves_for_white(): void
     {
-        $piece = new Pawn(Color::White, $this->space);
+        $space = new Space(Row::B, Column::i4);
+        $piece = new Pawn(Color::White, $space);
+        $possibleMoves = [ 'A5', 'B5', 'B6', 'C5'];
 
-        $this->assertCount(4, $piece->possibleMoves());
+        $actual = $piece->possibleMoves();
+
+        foreach ($actual as $move) {
+            $this->assertTrue($move->isOnTheBoard());
+            dump($move->newSpace()->name());
+            $this->assertTrue(in_array($move->newSpace()->name(), $possibleMoves));
+        }
     }
 }
