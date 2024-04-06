@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Game\Move;
 
-use App\Models\Board\Board;
 use App\Models\Board\Column;
 use App\Models\Board\Row;
 use App\Models\Board\Space;

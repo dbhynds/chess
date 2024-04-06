@@ -2,10 +2,6 @@
 
 namespace App\Models\Pieces;
 
-use App\Models\Board\Board;
-use App\Models\Game\Move\Move;
-use App\Models\Board\Space;
-
 class Pawn extends Piece
 {
     public function possibleMoves(): array

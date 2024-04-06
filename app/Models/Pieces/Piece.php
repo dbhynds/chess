@@ -19,5 +19,10 @@ abstract class Piece
         return $this->space;
     }
 
-    abstract function possibleMoves(): array;
+    public function requiresAClearPath(): bool
+    {
+        return true;
+    }
+
+    abstract public function possibleMoves(): array;
 }
