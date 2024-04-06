@@ -15,14 +15,14 @@ class Pawn extends Piece
                 Move::make($this)->up(1),
                 Move::make($this)->up(2),
                 Move::make($this)->up(1)->left(1),
-                Move::make($this)->up(1)->down(1),
+                Move::make($this)->up(1)->right(1),
             ];
         } else {
             return [
                 Move::make($this)->down(1),
                 Move::make($this)->down(2),
                 Move::make($this)->down(1)->left(1),
-                Move::make($this)->down(1)->down(1),
+                Move::make($this)->down(1)->right(1),
             ];
         }
     }
