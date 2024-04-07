@@ -185,12 +185,12 @@ class Game
         return $this;
     }
 
-    public function hasAPieceOn(Space $pace): bool
+    public function hasAPieceOn(Space $space): bool
     {
         return $this->activePieces()->has($space->name());
     }
 
-    public function pieceOn(Space $pace): bool
+    public function pieceOn(Space $space): Piece
     {
         return $this->activePieces()[$space->name()];
     }
