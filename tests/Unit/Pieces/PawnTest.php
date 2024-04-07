@@ -40,6 +40,22 @@ class PawnTest extends TestCase
         $this->assertEquals($this->space, $piece->space());
     }
 
+    public function test_isCaptured_returns_false(): void
+    {
+        $piece = new Pawn(Color::White, $this->space);
+
+        $this->assertFalse($piece->isCaptured());
+    }
+
+    public function test_capture_captures_piece(): void
+    {
+        $piece = new Pawn(Color::White, $this->space);
+
+        $piece->capture();
+
+        $this->assertTrue($piece->isCaptured());
+    }
+
     public function test_setSpace_sets_a_new_space(): void
     {
         $B2 = new Space(Column::B, Row::i2);

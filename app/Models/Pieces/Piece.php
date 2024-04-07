@@ -3,6 +3,7 @@
 namespace App\Models\Pieces;
 
 use App\Models\Board\Space;
+use App\Models\Game\Game;
 use App\Models\Game\Move\Move;
 use App\Models\Players\Color;
 use App\Models\Traits\HasAColor;
@@ -11,15 +12,30 @@ abstract class Piece
 {
     use HasAColor;
 
-    public function __construct(private Color $color, private Space $space)
+    private bool $isCaptured = false;
+
+    public function __construct(private Color $color, private ?Space $space)
     {
     }
 
     abstract public function name(): Pieces;
 
-    public function space(): Space
+    public function space(): ?Space
     {
         return $this->space;
+    }
+
+    public function isCaptured(): bool
+    {
+        return $this->isCaptured;
+    }
+
+    public function capture(): void
+    {
+        $oldSpace = $this->space();
+        $this->space = null;
+        $this->isCaptured = true;
+        app(Game::class)->removeFromTheBoard($oldSpace, $this);
     }
 
     public function setSpace(Space $space): void

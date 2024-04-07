@@ -47,24 +47,43 @@ class GameTest extends TestCase
         $this->assertCount(2, $game->players());
     }
 
-    public function test_pieces_returns_pieces(): void
+    public function test_activePieces_returns_active_pieces(): void
     {
         $game = app(Game::class);
 
-        $this->assertEquals(16, $game->pieces()->count());
+        $this->assertEquals(16, $game->activePieces()->count());
+    }
+
+    public function test_capturedPieces_is_empty(): void
+    {
+        $game = app(Game::class);
+
+        $this->assertEquals(0, $game->capturedPieces()->count());
     }
 
     public function test_move_moves_a_piece(): void
     {
         $game = app(Game::class);
-        $piece = $game->pieces()->first();
+        $piece = $game->activePieces()->first();
         $oldSpace = $piece->space();
         $D4 = new Space(Column::D, Row::i4);
         $move = Move::make($piece)->to($D4);
 
         $game->make($move);
 
-        $this->assertArrayNotHasKey($oldSpace->name(), $game->pieces());
-        $this->assertEquals($piece, $game->pieces()[$D4->name()]);
+        $this->assertArrayNotHasKey($oldSpace->name(), $game->activePieces());
+        $this->assertEquals($piece, $game->activePieces()[$D4->name()]);
+    }
+
+    public function test_remove_a_piece_from_the_board(): void
+    {
+        $game = app(Game::class);
+        $piece = $game->activePieces()->first();
+        $oldSpace = $piece->space();
+
+        $game->removeFromTheBoard($oldSpace, $piece);
+
+        $this->assertArrayNotHasKey($oldSpace->name(), $game->activePieces());
+        $this->assertEquals($piece, $game->capturedPieces()->first());
     }
 }

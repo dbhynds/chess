@@ -5,15 +5,19 @@ namespace App\Models\Game;
 use App\Models\Board\Board;
 use App\Models\Board\Column;
 use App\Models\Board\Row;
+use App\Models\Board\Space;
 use App\Models\Game\Move\Move;
 use App\Models\Pieces\Pawn;
+use App\Models\Pieces\Piece;
 use App\Models\Players\Color;
 use App\Models\Players\Player;
 use Illuminate\Support\Collection;
 
 class Game
 {
-    private Collection $pieces;
+    private Collection $activePieces;
+
+    private Collection $capturedPieces;
 
     private Player $white;
 
@@ -23,7 +27,8 @@ class Game
     {
         $this->white = new Player(Color::White);
         $this->black = new Player(Color::Black);
-        $this->pieces = $this->setPieces();
+        $this->activePieces = $this->setActivePieces();
+        $this->capturedPieces = collect([]);
     }
 
     public function board(): Board
@@ -49,12 +54,17 @@ class Game
         return [$this->white(), $this->black()];
     }
 
-    public function pieces(): Collection
+    public function activePieces(): Collection
     {
-        return $this->pieces;
+        return $this->activePieces;
     }
 
-    private function setPieces(): Collection
+    public function capturedPieces(): Collection
+    {
+        return $this->capturedPieces;
+    }
+
+    private function setActivePieces(): Collection
     {
         $startingConfiguration = [
             [
@@ -147,7 +157,15 @@ class Game
         return collect($pieces);
     }
 
-    public function make(Move $move)
+    public function removeFromTheBoard(Space $space, Piece $piece): self
+    {
+        $this->activePieces->forget($space->name());
+        $this->capturedPieces->push($piece);
+
+        return $this;
+    }
+
+    public function make(Move $move): self
     {
         $piece = $move->piece();
 
@@ -160,8 +178,10 @@ class Game
         // }
 
         // Move
-        $this->pieces->forget($move->originalSpace()->name());
+        $this->activePieces->forget($move->originalSpace()->name());
         $piece->setSpace($move->newSpace());
-        $this->pieces->put($piece->space()->name(), $piece);
+        $this->activePieces->put($piece->space()->name(), $piece);
+
+        return $this;
     }
 }
