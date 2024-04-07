@@ -27,7 +27,7 @@ class BoardTest extends TestCase
     {
         $board = app(Board::class);
 
-        $space = $board->space(Row::A, Column::i1);
+        $space = $board->space(Row::i1, Column::A);
 
         $this->assertInstanceOf(Space::class, $space);
         $this->assertEquals('A1', $space->name());

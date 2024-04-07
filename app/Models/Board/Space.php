@@ -4,7 +4,7 @@ namespace App\Models\Board;
 
 class Space
 {
-    public function __construct(private Row $row, private Column $column)
+    public function __construct(private Column $column, private Row $row)
     {
     }
 
@@ -13,14 +13,24 @@ class Space
         return $this->row;
     }
 
+    public function rowPosition(): int
+    {
+        return array_search($this->row(), Board::rows());
+    }
+
     public function column(): Column
     {
         return $this->column;
     }
 
+    public function columnPosition(): int
+    {
+        return array_search($this->column(), Board::columns());
+    }
+
     public static function named(Row $row, Column $column): string
     {
-        return $row->value.$column->value;
+        return $column->value.$row->value;
     }
 
     public function name(): string

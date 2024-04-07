@@ -20,6 +20,13 @@ class Move
         return new self($piece);
     }
 
+    public function to(Space $space): self
+    {
+        $this->newSpace = $space;
+
+        return $this;
+    }
+
     public function piece(): Piece
     {
         return $this->piece;
@@ -40,59 +47,74 @@ class Move
         return isset($this->newSpace);
     }
 
-    public function left(?int $distance = 1): self
+    public function vector(int $x, int $y): self
     {
-        if ($this->newSpace() === null) {
-            return $this;
-        }
+        $newX = $this->originalSpace()->columnPosition() + $x;
+        $newY = $this->originalSpace()->rowPosition() + $y;
 
-        $position = array_search($this->newSpace()->column(), Board::columns());
-        $newPosition = self::newPosition($position, $distance);
-
-        if (! self::isAPosition($newPosition)) {
+        if (! self::isAPosition($newX, $newY)) {
             $this->newSpace = null;
         } else {
-            $this->newSpace = app(Board::class)->space($this->newSpace()->row(), Board::columns()[$newPosition]);
+            $this->newSpace = app(Board::class)->space(Board::rows()[$newY], Board::columns()[$newX]);
         }
 
         return $this;
     }
 
-    public function right(?int $distance = 1): self
+    public function isDirection(Direction $direction, ?int $magnitude = null): bool
     {
-        return $this->left(-$distance);
-    }
-
-    public function down(?int $distance = 1): self
-    {
-        if ($this->newSpace() === null) {
-            return $this;
+        if (! $this->isOnTheBoard()) {
+            return false;
         }
 
-        $position = array_search($this->newSpace()->row(), Board::rows());
-        $newPosition = self::newPosition($position, $distance);
+        $originalY = $this->originalSpace()->rowPosition();
+        $originalX = $this->originalSpace()->columnPosition();
+        $newY = $this->newSpace()->rowPosition();
+        $newX = $this->newSpace()->columnPosition();
 
-        if (! self::isAPosition($newPosition)) {
-            $this->newSpace = null;
-        } else {
-            $this->newSpace = app(Board::class)->space(Board::rows()[$newPosition], $this->newSpace()->column());
+        switch ($direction) {
+            case Direction::Up:
+                if (isset($count)) {
+                    return $newY - $count === $originalY;
+                }
+
+                return $originalY < $newY;
+            case Direction::Down:
+                if (isset($count)) {
+                    return $newY + $count === $originalY;
+                }
+
+                return $originalY > $newY;
+            case Direction::Left:
+                if (isset($count)) {
+                    return $newX + $count === $originalX;
+                }
+
+                return $originalX > $newX;
+            case Direction::Right:
+                if (isset($count)) {
+                    return $newX - $count === $originalX;
+                }
+
+                return $originalX < $newX;
+            default:
+                return false;
         }
-
-        return $this;
     }
 
-    public function up(?int $distance = 1): self
+    public function capturesAPiece(): bool
     {
-        return $this->down(-$distance);
+        return false;
     }
 
-    private static function newPosition(int $position, int $distance): int
+    public function capturedPiece(): ?Piece
     {
-        return $position - $distance;
+        return null;
     }
 
-    private static function isAPosition(int $position): bool
+    private static function isAPosition(int $newX, int $newY): bool
     {
-        return $position >= 0 && $position < 8;
+        return $newX >= 0 && $newX < 8
+            && $newY >= 0 && $newY < 8;
     }
 }

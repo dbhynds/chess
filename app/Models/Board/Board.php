@@ -13,7 +13,7 @@ class Board
         $spaces = [];
         foreach (self::rows() as $row) {
             foreach (self::columns() as $column) {
-                $space = new Space($row, $column);
+                $space = new Space($column, $row);
                 $spaces[$space->name()] = $space;
             }
         }
