@@ -75,15 +75,22 @@ class GameTest extends TestCase
         $this->assertEquals($piece, $game->activePieces()[$D4->name()]);
     }
 
-    public function test_remove_a_piece_from_the_board(): void
+    public function test_hasAPieceOn(): void
+    {
+        $game = app(Game::class);
+
+        $piece = $game->activePieces()->first();
+        $this->assertTrue($game->hasAPieceOn($piece->space()));
+
+        $D4 = new Space(Column::D, Row::i4);
+        $this->assertFalse($game->hasAPieceOn($D4));
+    }
+
+    public function test_pieceOn(): void
     {
         $game = app(Game::class);
         $piece = $game->activePieces()->first();
-        $oldSpace = $piece->space();
 
-        $game->removeFromTheBoard($oldSpace, $piece);
-
-        $this->assertArrayNotHasKey($oldSpace->name(), $game->activePieces());
-        $this->assertEquals($piece, $game->capturedPieces()->first());
+        $this->assertEquals($piece, $game->pieceOn($piece->space()));
     }
 }

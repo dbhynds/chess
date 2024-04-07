@@ -37,4 +37,14 @@ class Space
     {
         return self::named($this->row(), $this->column());
     }
+
+    public function isOccupied(): bool
+    {
+        return app(Game::class)->hasAPieceOn($this);
+    }
+
+    public function piece(): bool
+    {
+        return app(Game::class)->pieceOn($this);
+    }
 }

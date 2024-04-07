@@ -40,4 +40,7 @@ class Pawn extends Piece
         return ($move->isDirection(Direction::Up) && $this->isWhite())
             || ($move->isDirection(Direction::Down) && $this->isBlack());
     }
+
+    // @TODO: en passant
+    // @TODO: promotion
 }

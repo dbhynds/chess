@@ -104,6 +104,10 @@ class Move
 
     public function capturesAPiece(): bool
     {
+        if (! $this->isOnTheBoard()) {
+            return false;
+        }
+
         return false;
     }
 
