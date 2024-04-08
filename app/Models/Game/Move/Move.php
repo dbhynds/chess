@@ -104,8 +104,8 @@ class Move
 
     public function capturesAPiece(): bool
     {
-        if (! $this->isOnTheBoard()) {
-            return false;
+        if ($this->newSpace()->isOccupied() && $this->piece()->canCapture($this->newSpace()->piece())) {
+            return true;
         }
 
         return false;

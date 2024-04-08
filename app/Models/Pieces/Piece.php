@@ -61,4 +61,9 @@ abstract class Piece
     {
         return true;
     }
+
+    public function canCapture(Piece $piece): bool
+    {
+        return $this->color() !== $piece->color();
+    }
 }

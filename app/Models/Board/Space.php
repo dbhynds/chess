@@ -2,6 +2,9 @@
 
 namespace App\Models\Board;
 
+use App\Models\Game\Game;
+use App\Models\Pieces\Piece;
+
 class Space
 {
     public function __construct(private Column $column, private Row $row)
@@ -43,7 +46,7 @@ class Space
         return app(Game::class)->hasAPieceOn($this);
     }
 
-    public function piece(): bool
+    public function piece(): Piece
     {
         return app(Game::class)->pieceOn($this);
     }
