@@ -173,9 +173,9 @@ class Game
             throw \Exception('That move is not allowed.');
         }
 
-        // if ($move->capturesAPiece()) {
-        //     $piece = $move->capturedPiece();
-        // }
+        if ($move->capturesAPiece()) {
+            $move->piece()->capture($move->capturedPiece());
+        }
 
         // Move
         $this->activePieces->forget($move->originalSpace()->name());
@@ -192,6 +192,6 @@ class Game
 
     public function pieceOn(Space $space): Piece
     {
-        return $this->activePieces()[$space->name()];
+        return $this->activePieces()->get($space->name());
     }
 }

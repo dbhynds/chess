@@ -228,4 +228,13 @@ class MoveTest extends TestCase
         $move = Move::make($black);
         $this->assertFalse($move->capturesAPiece());
     }
+
+    public function testCapturedPiece(): void
+    {
+        $black = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isBlack())->first();
+        $white = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isWhite())->first();
+
+        $move = Move::make($black)->to($white->space());
+        $this->assertEquals($white, $move->capturedPiece());
+    }
 }

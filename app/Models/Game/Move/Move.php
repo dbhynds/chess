@@ -111,9 +111,9 @@ class Move
         return false;
     }
 
-    public function capturedPiece(): ?Piece
+    public function capturedPiece(): Piece
     {
-        return null;
+        return $this->newSpace()->piece();
     }
 
     private static function isAPosition(int $newX, int $newY): bool
