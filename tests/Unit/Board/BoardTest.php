@@ -10,20 +10,20 @@ use PHPUnit\Framework\TestCase;
 
 class BoardTest extends TestCase
 {
-    public function test_board_instantiates(): void
+    public function testBoardInstantiates(): void
     {
         $board = app(Board::class);
         $this->assertInstanceOf(Board::class, $board);
     }
 
-    public function test_spaces_returns_spaces(): void
+    public function testSpacesReturnsSpaces(): void
     {
         $board = app(Board::class);
 
         $this->assertEquals(64, $board->spaces()->count());
     }
 
-    public function test_space_returns_a_space(): void
+    public function testSpaceReturnsASpace(): void
     {
         $board = app(Board::class);
 

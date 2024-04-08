@@ -20,34 +20,34 @@ class PawnTest extends TestCase
         $this->space = new Space(Column::B, Row::i2);
     }
 
-    public function test_instantiates(): void
+    public function testInstantiates(): void
     {
         $piece = new Pawn(Color::White, $this->space);
         $this->assertInstanceOf(Pawn::class, $piece);
     }
 
-    public function test_color_returns_color(): void
+    public function testColorReturnsColor(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertEquals(Color::White, $piece->color());
     }
 
-    public function test_space_returns_space(): void
+    public function testSpaceReturnsSpace(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertEquals($this->space, $piece->space());
     }
 
-    public function test_isCaptured_returns_false(): void
+    public function testIsCapturedReturnsFalse(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertFalse($piece->isCaptured());
     }
 
-    public function test_capture_captures_piece(): void
+    public function testCaptureCapturesPiece(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
@@ -56,7 +56,7 @@ class PawnTest extends TestCase
         $this->assertTrue($piece->isCaptured());
     }
 
-    public function test_setSpace_sets_a_new_space(): void
+    public function testSetSpaceSetsANewSpace(): void
     {
         $B2 = new Space(Column::B, Row::i2);
         $C2 = new Space(Column::C, Row::i2);
@@ -67,28 +67,28 @@ class PawnTest extends TestCase
         $this->assertEquals($C2, $piece->space());
     }
 
-    public function test_name_returns_pawn(): void
+    public function testNameReturnsPawn(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertEquals(Pieces::Pawn, $piece->name());
     }
 
-    public function test_possibleMoves_returns_possible_moves_for_white(): void
+    public function testPossibleMovesReturnsPossibleMovesForWhite(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertCount(8, $piece->possibleMoves());
     }
 
-    public function test_requiresAClearPath_returns_true(): void
+    public function testRequiresAClearPathReturnsTrue(): void
     {
         $piece = new Pawn(Color::White, $this->space);
 
         $this->assertTrue($piece->requiresAClearPath());
     }
 
-    public function test_filteredMoves_returns_valid_moves(): void
+    public function testFilteredMovesReturnsValidMoves(): void
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $space);
@@ -96,7 +96,7 @@ class PawnTest extends TestCase
         $this->assertCount(8, $piece->filteredMoves());
     }
 
-    public function test_moveIsValidForThisColor_returns_true_for_white_up(): void
+    public function testMoveIsValidForThisColorReturnsTrueForWhiteUp(): void
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $space);
@@ -105,7 +105,7 @@ class PawnTest extends TestCase
         $this->assertTrue($piece->moveIsValidForThisColor($move));
     }
 
-    public function test_moveIsValidForThisColor_returns_false_for_white_down(): void
+    public function testMoveIsValidForThisColorReturnsFalseForWhiteDown(): void
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $space);
@@ -114,7 +114,7 @@ class PawnTest extends TestCase
         $this->assertFalse($piece->moveIsValidForThisColor($move));
     }
 
-    public function test_moveIsValidForThisColor_returns_true_for_black_down(): void
+    public function testMoveIsValidForThisColorReturnsTrueForBlackDown(): void
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::Black, $space);
@@ -123,7 +123,7 @@ class PawnTest extends TestCase
         $this->assertTrue($piece->moveIsValidForThisColor($move));
     }
 
-    public function test_moveIsValidForThisColor_returns_false_for_black_up(): void
+    public function testMoveIsValidForThisColorReturnsFalseForBlackUp(): void
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::Black, $space);
@@ -132,7 +132,7 @@ class PawnTest extends TestCase
         $this->assertFalse($piece->moveIsValidForThisColor($move));
     }
 
-    public function test_moves_returns_valid_moves_for_white(): void
+    public function testMovesReturnsValidMovesForWhite(): void
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $space);
@@ -146,7 +146,7 @@ class PawnTest extends TestCase
         }
     }
 
-    public function test_moves_returns_no_valid_moves_for_white_at_end_of_the_board(): void
+    public function testMovesReturnsNoValidMovesForWhiteAtEndOfTheBoard(): void
     {
         $space = new Space(Column::D, Row::i8);
         $piece = new Pawn(Color::White, $space);
@@ -156,7 +156,7 @@ class PawnTest extends TestCase
         $this->assertCount(0, $moves);
     }
 
-    public function test_moves_returns_valid_moves_for_black(): void
+    public function testMovesReturnsValidMovesForBlack(): void
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::Black, $space);
@@ -168,5 +168,17 @@ class PawnTest extends TestCase
         foreach ($moves as $move) {
             $this->assertContains($move->newSpace()->name(), $validMoves);
         }
+    }
+
+    public function testCanCapture(): void
+    {
+        $space = new Space(Column::D, Row::i4);
+        $black = new Pawn(Color::Black, $space);
+        $white = new Pawn(Color::White, $space);
+
+        $this->assertTrue($black->canCapture($white));
+        $this->assertTrue($white->canCapture($black));
+        $this->assertFalse($white->canCapture($white));
+        $this->assertFalse($black->canCapture($black));
     }
 }

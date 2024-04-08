@@ -9,34 +9,34 @@ use PHPUnit\Framework\TestCase;
 
 class SpaceTest extends TestCase
 {
-    public function test_space_instantiates(): void
+    public function testSpaceInstantiates(): void
     {
         $space = new Space(Column::A, Row::i1);
         $this->assertInstanceOf(Space::class, $space);
     }
 
-    public function test_has_a_row(): void
+    public function testHasARow(): void
     {
         $space = new Space(Column::A, Row::i1);
 
         $this->assertEquals(Row::i1, $space->row());
     }
 
-    public function test_has_a_column(): void
+    public function testHasAColumn(): void
     {
         $space = new Space(Column::A, Row::i1);
 
         $this->assertEquals(Column::A, $space->column());
     }
 
-    public function test_has_a_name(): void
+    public function testHasAName(): void
     {
         $space = new Space(Column::A, Row::i1);
 
         $this->assertEquals('A1', $space->name());
     }
 
-    public function test_row_position_returns_row(): void
+    public function testRowPositionReturnsRow(): void
     {
         $space = new Space(Column::A, Row::i1);
 
@@ -47,7 +47,7 @@ class SpaceTest extends TestCase
         $this->assertEquals(7, $space->rowPosition());
     }
 
-    public function test_column_position_returns_column(): void
+    public function testColumnPositionReturnsColumn(): void
     {
         $space = new Space(Column::A, Row::i1);
 

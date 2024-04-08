@@ -13,55 +13,55 @@ use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
-    public function test_instantiates(): void
+    public function testInstantiates(): void
     {
         $game = app(Game::class);
         $this->assertInstanceOf(Game::class, $game);
     }
 
-    public function test_board_returns_board(): void
+    public function testBoardReturnsBoard(): void
     {
         $game = app(Game::class);
 
         $this->assertInstanceOf(Board::class, $game->board());
     }
 
-    public function test_black_returns_black(): void
+    public function testBlackReturnsBlack(): void
     {
         $game = app(Game::class);
 
         $this->assertEquals(Color::Black, $game->black()->color());
     }
 
-    public function test_white_returns_white(): void
+    public function testWhiteReturnsWhite(): void
     {
         $game = app(Game::class);
 
         $this->assertEquals(Color::White, $game->white()->color());
     }
 
-    public function test_players_returns_players(): void
+    public function testPlayersReturnsPlayers(): void
     {
         $game = app(Game::class);
 
         $this->assertCount(2, $game->players());
     }
 
-    public function test_activePieces_returns_active_pieces(): void
+    public function testActivePiecesReturnsActivePieces(): void
     {
         $game = app(Game::class);
 
         $this->assertEquals(16, $game->activePieces()->count());
     }
 
-    public function test_capturedPieces_is_empty(): void
+    public function testCapturedPiecesIsEmpty(): void
     {
         $game = app(Game::class);
 
         $this->assertEquals(0, $game->capturedPieces()->count());
     }
 
-    public function test_move_moves_a_piece(): void
+    public function testMoveMovesAPiece(): void
     {
         $game = app(Game::class);
         $piece = $game->activePieces()->first();
@@ -75,7 +75,7 @@ class GameTest extends TestCase
         $this->assertEquals($piece, $game->activePieces()[$D4->name()]);
     }
 
-    public function test_hasAPieceOn(): void
+    public function testHasAPieceOn(): void
     {
         $game = app(Game::class);
 
@@ -86,7 +86,7 @@ class GameTest extends TestCase
         $this->assertFalse($game->hasAPieceOn($D4));
     }
 
-    public function test_pieceOn(): void
+    public function testPieceOn(): void
     {
         $game = app(Game::class);
         $piece = $game->activePieces()->first();

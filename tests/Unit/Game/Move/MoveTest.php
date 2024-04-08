@@ -5,6 +5,7 @@ namespace Tests\Unit\Game\Move;
 use App\Models\Board\Column;
 use App\Models\Board\Row;
 use App\Models\Board\Space;
+use App\Models\Game\Game;
 use App\Models\Game\Move\Direction;
 use App\Models\Game\Move\Move;
 use App\Models\Pieces\Pawn;
@@ -13,7 +14,7 @@ use PHPUnit\Framework\TestCase;
 
 class MoveTest extends TestCase
 {
-    public function test_instantiates(): void
+    public function testInstantiates(): void
     {
         $H1 = new Space(Column::H, Row::i1);
         $piece = new Pawn(Color::White, $H1);
@@ -22,7 +23,7 @@ class MoveTest extends TestCase
         $this->assertInstanceOf(Move::class, $move);
     }
 
-    public function test_make_instantiates(): void
+    public function testMakeInstantiates(): void
     {
         $H1 = new Space(Column::H, Row::i1);
         $piece = new Pawn(Color::White, $H1);
@@ -31,7 +32,7 @@ class MoveTest extends TestCase
         $this->assertInstanceOf(Move::class, $move);
     }
 
-    public function test_piece_returns_piece(): void
+    public function testPieceReturnsPiece(): void
     {
         $H1 = new Space(Column::H, Row::i1);
         $piece = new Pawn(Color::White, $H1);
@@ -42,7 +43,7 @@ class MoveTest extends TestCase
         $this->assertEquals($piece, $actual);
     }
 
-    public function test_originalSpace_returns_original_space(): void
+    public function testOriginalSpaceReturnsOriginalSpace(): void
     {
         $H1 = new Space(Column::H, Row::i1);
         $piece = new Pawn(Color::White, $H1);
@@ -53,7 +54,7 @@ class MoveTest extends TestCase
         $this->assertEquals($H1, $actual);
     }
 
-    public function test_newSpace_returns_original_space_if_not_moved(): void
+    public function testNewSpaceReturnsOriginalSpaceIfNotMoved(): void
     {
         $H1 = new Space(Column::H, Row::i1);
         $piece = new Pawn(Color::White, $H1);
@@ -64,7 +65,7 @@ class MoveTest extends TestCase
         $this->assertEquals($H1, $actual);
     }
 
-    public function test_to_sets_new_space(): void
+    public function testToSetsNewSpace(): void
     {
         $H1 = new Space(Column::H, Row::i1);
         $A8 = new Space(Column::A, Row::i8);
@@ -74,7 +75,7 @@ class MoveTest extends TestCase
         $this->assertEquals($A8, $move->newSpace());
     }
 
-    public function test_vector_returns_the_space_above_D4(): void
+    public function testVectorReturnsTheSpaceAboveD4(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -85,7 +86,7 @@ class MoveTest extends TestCase
         $this->assertTrue($move->isOnTheBoard());
     }
 
-    public function test_vector_returns_the_space_two_above_D4(): void
+    public function testVectorReturnsTheSpaceTwoAboveD4(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -96,7 +97,7 @@ class MoveTest extends TestCase
         $this->assertTrue($move->isOnTheBoard());
     }
 
-    public function test_vector_returns_the_space_left_of_D4(): void
+    public function testVectorReturnsTheSpaceLeftOfD4(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -107,7 +108,7 @@ class MoveTest extends TestCase
         $this->assertTrue($move->isOnTheBoard());
     }
 
-    public function test_vector_returns_the_space_diagonally_right_and_down_from_D4(): void
+    public function testVectorReturnsTheSpaceDiagonallyRightAndDownFromD4(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -118,7 +119,7 @@ class MoveTest extends TestCase
         $this->assertTrue($move->isOnTheBoard());
     }
 
-    public function test_vector_returns_null_if_off_the_board(): void
+    public function testVectorReturnsNullIfOffTheBoard(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -129,7 +130,7 @@ class MoveTest extends TestCase
         $this->assertFalse($move->isOnTheBoard());
     }
 
-    public function test_isDirection_up(): void
+    public function testIsDirectionUp(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -150,7 +151,7 @@ class MoveTest extends TestCase
         $this->assertFalse($move->isDirection(Direction::Up));
     }
 
-    public function test_isDirection_down(): void
+    public function testIsDirectionDown(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -171,7 +172,7 @@ class MoveTest extends TestCase
         $this->assertFalse($move->isDirection(Direction::Down));
     }
 
-    public function test_isDirection_left(): void
+    public function testIsDirectionLeft(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -192,7 +193,7 @@ class MoveTest extends TestCase
         $this->assertFalse($move->isDirection(Direction::Left));
     }
 
-    public function test_isDirection_right(): void
+    public function testIsDirectionRight(): void
     {
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
@@ -211,5 +212,20 @@ class MoveTest extends TestCase
 
         $move = new Move($piece);
         $this->assertFalse($move->isDirection(Direction::Right));
+    }
+
+    public function testCapturesAPiece(): void
+    {
+        $black = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isBlack())->first();
+        $white = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isWhite())->first();
+
+        $move = Move::make($black)->to($white->space());
+        $this->assertTrue($move->capturesAPiece());
+
+        $move = Move::make($black)->to($black->space());
+        $this->assertFalse($move->capturesAPiece());
+
+        $move = Move::make($black);
+        $this->assertFalse($move->capturesAPiece());
     }
 }
