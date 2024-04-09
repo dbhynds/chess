@@ -67,91 +67,29 @@ class Game
     private function setActivePieces(): Collection
     {
         $startingConfiguration = [
-            [
-                'space' => $this->board->space(Row::i2, Column::A),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i2, Column::B),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i2, Column::C),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i2, Column::D),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i2, Column::E),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i2, Column::F),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i2, Column::G),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i2, Column::H),
-                'piece' => Pawn::class,
-                'color' => Color::White,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::A),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::B),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::C),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::D),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::E),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::F),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::G),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
-            [
-                'space' => $this->board->space(Row::i7, Column::H),
-                'piece' => Pawn::class,
-                'color' => Color::Black,
-            ],
+            // White
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::A)),
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::B)),
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::C)),
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::D)),
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::E)),
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::F)),
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::G)),
+            new Pawn(Color::White, $this->board->space(Row::i2, Column::H)),
+            // Black
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::A)),
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::B)),
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::C)),
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::D)),
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::E)),
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::F)),
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::G)),
+            new Pawn(Color::Black, $this->board->space(Row::i7, Column::H)),
         ];
 
         $pieces = [];
         foreach ($startingConfiguration as $piece) {
-            $pieces[$piece['space']->name()] = new $piece['piece']($piece['color'], $piece['space']);
+            $pieces[$piece->space()->name()] = $piece;
         }
 
         return collect($pieces);
