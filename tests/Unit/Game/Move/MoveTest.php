@@ -80,7 +80,7 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(0, 1);
+        $move = Move::make($piece)->withVector(0, 1);
 
         $this->assertEquals('D5', $move->newSpace()->name());
         $this->assertTrue($move->isOnTheBoard());
@@ -91,7 +91,7 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(0, 2);
+        $move = Move::make($piece)->withVector(0, 2);
 
         $this->assertEquals('D6', $move->newSpace()->name());
         $this->assertTrue($move->isOnTheBoard());
@@ -102,7 +102,7 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(-1, 0);
+        $move = Move::make($piece)->withVector(-1, 0);
 
         $this->assertEquals('C4', $move->newSpace()->name());
         $this->assertTrue($move->isOnTheBoard());
@@ -113,7 +113,7 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(1, -1);
+        $move = Move::make($piece)->withVector(1, -1);
 
         $this->assertEquals('E3', $move->newSpace()->name());
         $this->assertTrue($move->isOnTheBoard());
@@ -124,7 +124,7 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(5, 5);
+        $move = Move::make($piece)->withVector(5, 5);
 
         $this->assertNull($move->newSpace());
         $this->assertFalse($move->isOnTheBoard());
@@ -135,16 +135,16 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(0, 1);
+        $move = Move::make($piece)->withVector(0, 1);
         $this->assertTrue($move->isDirection(Direction::Up));
 
-        $move = Move::make($piece)->vector(0, 2);
+        $move = Move::make($piece)->withVector(0, 2);
         $this->assertTrue($move->isDirection(Direction::Up));
 
-        $move = Move::make($piece)->vector(0, 10);
+        $move = Move::make($piece)->withVector(0, 10);
         $this->assertFalse($move->isDirection(Direction::Up));
 
-        $move = Move::make($piece)->vector(0, -1);
+        $move = Move::make($piece)->withVector(0, -1);
         $this->assertFalse($move->isDirection(Direction::Up));
 
         $move = new Move($piece);
@@ -156,16 +156,16 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(0, -1);
+        $move = Move::make($piece)->withVector(0, -1);
         $this->assertTrue($move->isDirection(Direction::Down));
 
-        $move = Move::make($piece)->vector(0, -2);
+        $move = Move::make($piece)->withVector(0, -2);
         $this->assertTrue($move->isDirection(Direction::Down));
 
-        $move = Move::make($piece)->vector(0, -10);
+        $move = Move::make($piece)->withVector(0, -10);
         $this->assertFalse($move->isDirection(Direction::Down));
 
-        $move = Move::make($piece)->vector(0, 1);
+        $move = Move::make($piece)->withVector(0, 1);
         $this->assertFalse($move->isDirection(Direction::Down));
 
         $move = new Move($piece);
@@ -177,16 +177,16 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(-1, 0);
+        $move = Move::make($piece)->withVector(-1, 0);
         $this->assertTrue($move->isDirection(Direction::Left));
 
-        $move = Move::make($piece)->vector(-2, 0);
+        $move = Move::make($piece)->withVector(-2, 0);
         $this->assertTrue($move->isDirection(Direction::Left));
 
-        $move = Move::make($piece)->vector(-10, 0);
+        $move = Move::make($piece)->withVector(-10, 0);
         $this->assertFalse($move->isDirection(Direction::Left));
 
-        $move = Move::make($piece)->vector(1, 0);
+        $move = Move::make($piece)->withVector(1, 0);
         $this->assertFalse($move->isDirection(Direction::Left));
 
         $move = new Move($piece);
@@ -198,16 +198,16 @@ class MoveTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $D4);
 
-        $move = Move::make($piece)->vector(1, 0);
+        $move = Move::make($piece)->withVector(1, 0);
         $this->assertTrue($move->isDirection(Direction::Right));
 
-        $move = Move::make($piece)->vector(2, 0);
+        $move = Move::make($piece)->withVector(2, 0);
         $this->assertTrue($move->isDirection(Direction::Right));
 
-        $move = Move::make($piece)->vector(10, 0);
+        $move = Move::make($piece)->withVector(10, 0);
         $this->assertFalse($move->isDirection(Direction::Right));
 
-        $move = Move::make($piece)->vector(-1, 0);
+        $move = Move::make($piece)->withVector(-1, 0);
         $this->assertFalse($move->isDirection(Direction::Right));
 
         $move = new Move($piece);
@@ -237,4 +237,56 @@ class MoveTest extends TestCase
         $move = Move::make($black)->to($white->space());
         $this->assertEquals($white, $move->capturedPiece());
     }
+
+    public function testVector(): void
+    {
+        $D4 = new Space(Column::D, Row::i4);
+        $D6 = new Space(Column::D, Row::i6);
+        $C5 = new Space(Column::C, Row::i5);
+        $E3 = new Space(Column::E, Row::i3);
+        $piece = new Pawn(Color::White, $D4);
+
+        $move = Move::make($piece)->to($D6);
+        $this->assertEquals([0, 2], $move->vector());
+
+        $move = Move::make($piece)->to($C5);
+        $this->assertEquals([-1, 1], $move->vector());
+
+        $move = Move::make($piece)->to($E3);
+        $this->assertEquals([1, -1], $move->vector());
+    }
+
+    public function testPath(): void
+    {
+        $A1 = new Space(Column::A, Row::i1);
+        $B2 = new Space(Column::B, Row::i2);
+        $C3 = new Space(Column::C, Row::i3);
+        $D4 = new Space(Column::D, Row::i4);
+        $E5 = new Space(Column::E, Row::i5);
+        $F6 = new Space(Column::F, Row::i6);
+        $G7 = new Space(Column::G, Row::i7);
+        $H8 = new Space(Column::H, Row::i8);
+        $piece = new Pawn(Color::White, $D4);
+
+        $move = Move::make($piece)->to($H8);
+        $this->assertEquals([$E5, $F6, $G7, $H8], $move->path());
+    }
+
+    // public function testIsObstructed(): void
+    // {
+    //     $B2 = new Space(Column::B, Row::i2);
+    //     $B3 = new Space(Column::B, Row::i3);
+    //     $B4 = new Space(Column::B, Row::i4);
+    //     $piece = new Pawn(Color::White, $B2);
+    //     $blocker = new Pawn(Color::White, $B3);
+    //     $game = app(Game::class);
+
+    //     $game->place($piece);
+    //     $game->place($blocker);
+
+    //     $move = Move::make($piece)->to($B4);
+    //     $this->assertTrue($move->isObstructed());
+
+    //     // @todo test pieces that don't require a clear path
+    // }
 }

@@ -4,7 +4,6 @@ namespace App\Models\Pieces;
 
 use App\Models\Board\Space;
 use App\Models\Game\Game;
-use App\Models\Game\Move\Move;
 use App\Models\Players\Color;
 use App\Models\Traits\HasAColor;
 
@@ -55,11 +54,6 @@ abstract class Piece
     public function filteredMoves(): array
     {
         return array_filter($this->possibleMoves(), fn ($move) => $move->isOnTheBoard());
-    }
-
-    public function can(Move $move): bool
-    {
-        return true;
     }
 
     public function canCapture(Piece $piece): bool

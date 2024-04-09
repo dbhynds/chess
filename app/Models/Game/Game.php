@@ -12,6 +12,7 @@ use App\Models\Pieces\Piece;
 use App\Models\Players\Color;
 use App\Models\Players\Player;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Gate;
 
 class Game
 {
@@ -27,8 +28,9 @@ class Game
     {
         $this->white = new Player(Color::White);
         $this->black = new Player(Color::Black);
-        $this->activePieces = $this->setActivePieces();
         $this->capturedPieces = collect([]);
+        $this->activePieces = collect([]);
+        $this->setActivePieces();
     }
 
     public function board(): Board
@@ -64,35 +66,37 @@ class Game
         return $this->capturedPieces;
     }
 
-    private function setActivePieces(): Collection
+    public function place(Piece $piece): void
+    {
+        $this->activePieces->put($piece->space()->name(), $piece);
+    }
+
+    private function setActivePieces(): void
     {
         $startingConfiguration = [
             // White
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::A)),
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::B)),
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::C)),
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::D)),
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::E)),
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::F)),
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::G)),
-            new Pawn(Color::White, $this->board->space(Row::i2, Column::H)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::A)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::B)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::C)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::D)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::E)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::F)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::G)),
+            new Pawn(Color::White, $this->board()->space(Row::i2, Column::H)),
             // Black
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::A)),
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::B)),
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::C)),
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::D)),
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::E)),
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::F)),
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::G)),
-            new Pawn(Color::Black, $this->board->space(Row::i7, Column::H)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::A)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::B)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::C)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::D)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::E)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::F)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::G)),
+            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::H)),
         ];
 
-        $pieces = [];
         foreach ($startingConfiguration as $piece) {
-            $pieces[$piece->space()->name()] = $piece;
+            $this->place($piece);
         }
-
-        return collect($pieces);
     }
 
     public function removeFromTheBoard(Space $space, Piece $piece): self
@@ -107,9 +111,7 @@ class Game
     {
         $piece = $move->piece();
 
-        if (! $piece->can($move)) {
-            throw \Exception('That move is not allowed.');
-        }
+        Gate::authorize('can', $move);
 
         if ($move->capturesAPiece()) {
             $move->capturedPiece()->capture();

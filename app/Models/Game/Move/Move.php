@@ -47,7 +47,7 @@ class Move
         return isset($this->newSpace);
     }
 
-    public function vector(int $x, int $y): self
+    public function withVector(int $x, int $y): self
     {
         $newX = $this->originalSpace()->columnPosition() + $x;
         $newY = $this->originalSpace()->rowPosition() + $y;
@@ -67,36 +67,33 @@ class Move
             return false;
         }
 
-        $originalY = $this->originalSpace()->rowPosition();
-        $originalX = $this->originalSpace()->columnPosition();
-        $newY = $this->newSpace()->rowPosition();
-        $newX = $this->newSpace()->columnPosition();
+        $vector = $this->vector();
 
         switch ($direction) {
             case Direction::Up:
-                if (isset($count)) {
-                    return $newY - $count === $originalY;
+                if (isset($magnitude)) {
+                    return $vector[1] === $magnitude;
                 }
 
-                return $originalY < $newY;
+                return $vector[1] > 0;
             case Direction::Down:
-                if (isset($count)) {
-                    return $newY + $count === $originalY;
+                if (isset($magnitude)) {
+                    return -$vector[1] === $magnitude;
                 }
 
-                return $originalY > $newY;
+                return $vector[1] < 0;
             case Direction::Left:
-                if (isset($count)) {
-                    return $newX + $count === $originalX;
+                if (isset($magnitude)) {
+                    return $vector[0] === $magnitude;
                 }
 
-                return $originalX > $newX;
+                return $vector[0] < 0;
             case Direction::Right:
-                if (isset($count)) {
-                    return $newX - $count === $originalX;
+                if (isset($magnitude)) {
+                    return -$vector[0] === $magnitude;
                 }
 
-                return $originalX < $newX;
+                return $vector[0] > 0;
             default:
                 return false;
         }
@@ -114,6 +111,62 @@ class Move
     public function capturedPiece(): Piece
     {
         return $this->newSpace()->piece();
+    }
+
+    public function vector(): array
+    {
+        $originalY = $this->originalSpace()->rowPosition();
+        $originalX = $this->originalSpace()->columnPosition();
+        $newY = $this->newSpace()->rowPosition();
+        $newX = $this->newSpace()->columnPosition();
+
+        return [
+            $newX - $originalX,
+            $newY - $originalY,
+        ];
+    }
+
+    public function path(): array
+    {
+        $vector = $this->vector();
+
+        $positionX = $vector[0];
+        $positionY = $vector[1];
+
+        if (abs($positionX) > abs($positionY)) {
+            $start = $positionX;
+        } else {
+            $start = $positionY;
+        }
+
+        dump($vector);
+
+        $path = [];
+        $magnitude = 0;
+        while (min($start + $magnitude, $start) < max($start + $magnitude, $start)) {
+
+            $newX = $this->originalSpace()->columnPosition() + $magnitude;
+            $newY = $this->originalSpace()->rowPosition() + $magnitude;
+
+            dump($newX, $newY);
+
+            $path[] = app(Board::class)->space(Board::rows()[$newY], Board::columns()[$newX]);
+
+            $magnitude++;
+        }
+
+        dump($path);
+
+        return array_reverse($path);
+    }
+
+    public function isObstructed(): bool
+    {
+        if (! $this->piece()->requiresAClearPath()) {
+            return false;
+        }
+
+        return array_reduce($this->path(), fn ($step) => $step->isOccupied(), false);
     }
 
     private static function isAPosition(int $newX, int $newY): bool

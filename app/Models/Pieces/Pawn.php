@@ -16,15 +16,15 @@ class Pawn extends Piece
     {
         return [
             // White
-            Move::make($this)->vector(-1, 1),
-            Move::make($this)->vector(0, 1),
-            Move::make($this)->vector(0, 2),
-            Move::make($this)->vector(1, 1),
+            Move::make($this)->withVector(-1, 1),
+            Move::make($this)->withVector(0, 1),
+            Move::make($this)->withVector(0, 2),
+            Move::make($this)->withVector(1, 1),
             // Black
-            Move::make($this)->vector(-1, -1),
-            Move::make($this)->vector(0, -1),
-            Move::make($this)->vector(0, -2),
-            Move::make($this)->vector(1, -1),
+            Move::make($this)->withVector(-1, -1),
+            Move::make($this)->withVector(0, -1),
+            Move::make($this)->withVector(0, -2),
+            Move::make($this)->withVector(1, -1),
         ];
     }
 

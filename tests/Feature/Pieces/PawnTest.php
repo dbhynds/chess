@@ -5,11 +5,9 @@ namespace Tests\Feature\Pieces;
 use App\Models\Board\Column;
 use App\Models\Board\Row;
 use App\Models\Board\Space;
-use App\Models\Game\Move\Move;
 use App\Models\Game\Game;
+use App\Models\Game\Move\Move;
 use App\Models\Pieces\Pawn;
-use App\Models\Pieces\Pieces;
-use App\Models\Players\Color;
 use Tests\TestCase;
 
 class PawnTest extends TestCase
@@ -22,7 +20,7 @@ class PawnTest extends TestCase
         $D4 = new Space(Column::D, Row::i4);
         $E7 = new Space(Column::E, Row::i7);
         $E5 = new Space(Column::E, Row::i5);
-        
+
         // d4
         $game->make(Move::make($game->pieceOn($D2))->to($D4));
         // e5

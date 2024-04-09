@@ -100,7 +100,7 @@ class PawnTest extends TestCase
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $space);
-        $move = Move::make($piece)->vector(0, 1);
+        $move = Move::make($piece)->withVector(0, 1);
 
         $this->assertTrue($piece->moveIsValidForThisColor($move));
     }
@@ -109,7 +109,7 @@ class PawnTest extends TestCase
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::White, $space);
-        $move = Move::make($piece)->vector(0, -1);
+        $move = Move::make($piece)->withVector(0, -1);
 
         $this->assertFalse($piece->moveIsValidForThisColor($move));
     }
@@ -118,7 +118,7 @@ class PawnTest extends TestCase
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::Black, $space);
-        $move = Move::make($piece)->vector(0, -1);
+        $move = Move::make($piece)->withVector(0, -1);
 
         $this->assertTrue($piece->moveIsValidForThisColor($move));
     }
@@ -127,7 +127,7 @@ class PawnTest extends TestCase
     {
         $space = new Space(Column::D, Row::i4);
         $piece = new Pawn(Color::Black, $space);
-        $move = Move::make($piece)->vector(0, 1);
+        $move = Move::make($piece)->withVector(0, 1);
 
         $this->assertFalse($piece->moveIsValidForThisColor($move));
     }
