@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class PawnTest extends TestCase
 {
-    public function testQueenPawnsAdvanceAndWhiteCaptures(): void
+    public function testWhiteQueenPawnAndBlackKingPawnAdvanceAndWhiteCaptures(): void
     {
         $game = app(Game::class);
 

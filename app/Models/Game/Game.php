@@ -174,7 +174,7 @@ class Game
         }
 
         if ($move->capturesAPiece()) {
-            $move->piece()->capture($move->capturedPiece());
+            $move->capturedPiece()->capture();
         }
 
         // Move
