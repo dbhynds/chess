@@ -258,15 +258,18 @@ class MoveTest extends TestCase
 
     public function testPath(): void
     {
+        // Piece on D4
+        $D4 = new Space(Column::D, Row::i4);
+        $piece = new Pawn(Color::White, $D4);
+
+        // Bottom left to top right
         $A1 = new Space(Column::A, Row::i1);
         $B2 = new Space(Column::B, Row::i2);
         $C3 = new Space(Column::C, Row::i3);
-        $D4 = new Space(Column::D, Row::i4);
         $E5 = new Space(Column::E, Row::i5);
         $F6 = new Space(Column::F, Row::i6);
         $G7 = new Space(Column::G, Row::i7);
         $H8 = new Space(Column::H, Row::i8);
-        $piece = new Pawn(Color::White, $D4);
 
         // Diagonal, up right
         $move = Move::make($piece)->to($H8);
@@ -275,6 +278,56 @@ class MoveTest extends TestCase
         // Diagonal, down left
         $move = Move::make($piece)->to($A1);
         $this->assertEquals([$C3, $B2, $A1], $move->path());
+
+        // Top left to bottom right
+        $A7 = new Space(Column::A, Row::i7);
+        $B6 = new Space(Column::B, Row::i6);
+        $C5 = new Space(Column::C, Row::i5);
+        $E3 = new Space(Column::E, Row::i3);
+        $F2 = new Space(Column::F, Row::i2);
+        $G1 = new Space(Column::G, Row::i1);
+
+        // Diagonal, up left
+        $move = Move::make($piece)->to($A7);
+        $this->assertEquals([$C5, $B6, $A7], $move->path());
+
+        // Diagonal, down right
+        $move = Move::make($piece)->to($G1);
+        $this->assertEquals([$E3, $F2, $G1], $move->path());
+
+        // Column 4
+        $A4 = new Space(Column::A, Row::i4);
+        $B4 = new Space(Column::B, Row::i4);
+        $C4 = new Space(Column::C, Row::i4);
+        $E4 = new Space(Column::E, Row::i4);
+        $F4 = new Space(Column::F, Row::i4);
+        $G4 = new Space(Column::G, Row::i4);
+        $H4 = new Space(Column::H, Row::i4);
+
+        // Up
+        $move = Move::make($piece)->to($H4);
+        $this->assertEquals([$E4, $F4, $G4, $H4], $move->path());
+
+        // Down
+        $move = Move::make($piece)->to($A4);
+        $this->assertEquals([$C4, $B4, $A4], $move->path());
+
+        // Row D
+        $D1 = new Space(Column::D, Row::i1);
+        $D2 = new Space(Column::D, Row::i2);
+        $D3 = new Space(Column::D, Row::i3);
+        $D5 = new Space(Column::D, Row::i5);
+        $D6 = new Space(Column::D, Row::i6);
+        $D7 = new Space(Column::D, Row::i7);
+        $D8 = new Space(Column::D, Row::i8);
+
+        // Left
+        $move = Move::make($piece)->to($D1);
+        $this->assertEquals([$D3, $D2, $D1], $move->path());
+
+        // Right
+        $move = Move::make($piece)->to($D8);
+        $this->assertEquals([$D5, $D6, $D7, $D8], $move->path());
     }
 
     // public function testIsObstructed(): void

@@ -132,6 +132,8 @@ class Move
 
         $positionX = $vector[0];
         $positionY = $vector[1];
+        $modifierX = $positionX <=> 0;
+        $modifierY = $positionY <=> 0;
 
         if (abs($positionX) > abs($positionY)) {
             $distance = $positionX;
@@ -143,15 +145,13 @@ class Move
         $magnitude = 1;
         while ($magnitude <= abs($distance)) {
 
-            $newX = $this->originalSpace()->columnPosition() + $magnitude;
-            $newY = $this->originalSpace()->rowPosition() + $magnitude;
+            $newX = $this->originalSpace()->columnPosition() + ($modifierX * $magnitude);
+            $newY = $this->originalSpace()->rowPosition() + ($modifierY * $magnitude);
 
             $path[] = app(Board::class)->space(Board::rows()[$newY], Board::columns()[$newX]);
 
             $magnitude++;
         }
-
-        dump($path);
 
         return $path;
     }
