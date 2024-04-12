@@ -273,11 +273,11 @@ class MoveTest extends TestCase
 
         // Diagonal, up right
         $move = Move::make($piece)->to($H8);
-        $this->assertEquals([$E5, $F6, $G7, $H8], $move->path());
+        $this->assertEquals([$E5, $F6, $G7], $move->path());
 
         // Diagonal, down left
         $move = Move::make($piece)->to($A1);
-        $this->assertEquals([$C3, $B2, $A1], $move->path());
+        $this->assertEquals([$C3, $B2], $move->path());
 
         // Top left to bottom right
         $A7 = new Space(Column::A, Row::i7);
@@ -289,11 +289,11 @@ class MoveTest extends TestCase
 
         // Diagonal, up left
         $move = Move::make($piece)->to($A7);
-        $this->assertEquals([$C5, $B6, $A7], $move->path());
+        $this->assertEquals([$C5, $B6], $move->path());
 
         // Diagonal, down right
         $move = Move::make($piece)->to($G1);
-        $this->assertEquals([$E3, $F2, $G1], $move->path());
+        $this->assertEquals([$E3, $F2], $move->path());
 
         // Column 4
         $A4 = new Space(Column::A, Row::i4);
@@ -306,11 +306,11 @@ class MoveTest extends TestCase
 
         // Up
         $move = Move::make($piece)->to($H4);
-        $this->assertEquals([$E4, $F4, $G4, $H4], $move->path());
+        $this->assertEquals([$E4, $F4, $G4], $move->path());
 
         // Down
         $move = Move::make($piece)->to($A4);
-        $this->assertEquals([$C4, $B4, $A4], $move->path());
+        $this->assertEquals([$C4, $B4], $move->path());
 
         // Row D
         $D1 = new Space(Column::D, Row::i1);
@@ -323,11 +323,11 @@ class MoveTest extends TestCase
 
         // Left
         $move = Move::make($piece)->to($D1);
-        $this->assertEquals([$D3, $D2, $D1], $move->path());
+        $this->assertEquals([$D3, $D2], $move->path());
 
         // Right
         $move = Move::make($piece)->to($D8);
-        $this->assertEquals([$D5, $D6, $D7, $D8], $move->path());
+        $this->assertEquals([$D5, $D6, $D7], $move->path());
     }
 
     // public function testIsObstructed(): void

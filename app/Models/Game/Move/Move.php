@@ -143,7 +143,7 @@ class Move
 
         $path = [];
         $magnitude = 1;
-        while ($magnitude <= abs($distance)) {
+        while ($magnitude < abs($distance)) {
 
             $newX = $this->originalSpace()->columnPosition() + ($modifierX * $magnitude);
             $newY = $this->originalSpace()->rowPosition() + ($modifierY * $magnitude);
