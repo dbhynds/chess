@@ -129,21 +129,18 @@ class Move
     public function path(): array
     {
         $vector = $this->vector();
-
         $positionX = $vector[0];
         $positionY = $vector[1];
+
+        // Are we moving along an axis towards the positive, negative, or not at all along the axis
         $modifierX = $positionX <=> 0;
         $modifierY = $positionY <=> 0;
-
-        if (abs($positionX) > abs($positionY)) {
-            $distance = $positionX;
-        } else {
-            $distance = $positionY;
-        }
+        // How far do we need to travel to get to the new space
+        $distance = max(abs($positionX), abs($positionY));
 
         $path = [];
         $magnitude = 1;
-        while ($magnitude < abs($distance)) {
+        while ($magnitude < $distance) {
 
             $newX = $this->originalSpace()->columnPosition() + ($modifierX * $magnitude);
             $newY = $this->originalSpace()->rowPosition() + ($modifierY * $magnitude);
@@ -162,7 +159,14 @@ class Move
             return false;
         }
 
-        return array_reduce($this->path(), fn ($step) => $step->isOccupied(), false);
+        return array_reduce(
+            $this->path(),
+            function (bool $carry, Space $space) {
+                dump($space);
+
+                return $carry || $space->isOccupied();
+            },
+            false);
     }
 
     private static function isAPosition(int $newX, int $newY): bool

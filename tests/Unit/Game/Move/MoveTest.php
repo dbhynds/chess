@@ -330,21 +330,21 @@ class MoveTest extends TestCase
         $this->assertEquals([$D5, $D6, $D7], $move->path());
     }
 
-    // public function testIsObstructed(): void
-    // {
-    //     $B2 = new Space(Column::B, Row::i2);
-    //     $B3 = new Space(Column::B, Row::i3);
-    //     $B4 = new Space(Column::B, Row::i4);
-    //     $piece = new Pawn(Color::White, $B2);
-    //     $blocker = new Pawn(Color::White, $B3);
-    //     $game = app(Game::class);
+    public function testIsObstructed(): void
+    {
+        $B2 = new Space(Column::B, Row::i2);
+        $B3 = new Space(Column::B, Row::i3);
+        $B4 = new Space(Column::B, Row::i4);
+        $piece = new Pawn(Color::White, $B2);
+        $blocker = new Pawn(Color::White, $B3);
+        $game = app(Game::class);
 
-    //     $game->place($piece);
-    //     $game->place($blocker);
+        $game->place($piece);
+        $game->place($blocker);
 
-    //     $move = Move::make($piece)->to($B4);
-    //     $this->assertTrue($move->isObstructed());
+        $move = Move::make($piece)->to($B4);
+        $this->assertTrue($move->isObstructed());
 
-    //     // @todo test pieces that don't require a clear path
-    // }
+        // @todo test pieces that don't require a clear path
+    }
 }
