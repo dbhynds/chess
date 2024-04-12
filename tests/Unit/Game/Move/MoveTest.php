@@ -268,8 +268,13 @@ class MoveTest extends TestCase
         $H8 = new Space(Column::H, Row::i8);
         $piece = new Pawn(Color::White, $D4);
 
+        // Diagonal, up right
         $move = Move::make($piece)->to($H8);
         $this->assertEquals([$E5, $F6, $G7, $H8], $move->path());
+
+        // Diagonal, down left
+        $move = Move::make($piece)->to($A1);
+        $this->assertEquals([$C3, $B2, $A1], $move->path());
     }
 
     // public function testIsObstructed(): void

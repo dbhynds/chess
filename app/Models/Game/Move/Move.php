@@ -134,21 +134,17 @@ class Move
         $positionY = $vector[1];
 
         if (abs($positionX) > abs($positionY)) {
-            $start = $positionX;
+            $distance = $positionX;
         } else {
-            $start = $positionY;
+            $distance = $positionY;
         }
 
-        dump($vector);
-
         $path = [];
-        $magnitude = 0;
-        while (min($start + $magnitude, $start) < max($start + $magnitude, $start)) {
+        $magnitude = 1;
+        while ($magnitude <= abs($distance)) {
 
             $newX = $this->originalSpace()->columnPosition() + $magnitude;
             $newY = $this->originalSpace()->rowPosition() + $magnitude;
-
-            dump($newX, $newY);
 
             $path[] = app(Board::class)->space(Board::rows()[$newY], Board::columns()[$newX]);
 
@@ -157,7 +153,7 @@ class Move
 
         dump($path);
 
-        return array_reverse($path);
+        return $path;
     }
 
     public function isObstructed(): bool
