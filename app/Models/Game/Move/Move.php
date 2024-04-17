@@ -162,8 +162,6 @@ class Move
         return array_reduce(
             $this->path(),
             function (bool $carry, Space $space) {
-                dump($space);
-
                 return $carry || $space->isOccupied();
             },
             false);

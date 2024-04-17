@@ -336,12 +336,18 @@ class MoveTest extends TestCase
         $B3 = new Space(Column::B, Row::i3);
         $B4 = new Space(Column::B, Row::i4);
         $piece = new Pawn(Color::White, $B2);
-        $blocker = new Pawn(Color::White, $B3);
         $game = app(Game::class);
+        // Ensure the same instance always gets resolved
+        app()->instance(Game::class, $game);
 
+        // Place a piece with now blockers
         $game->place($piece);
-        $game->place($blocker);
+        $move = Move::make($piece)->to($B4);
+        $this->assertFalse($move->isObstructed());
 
+        // Now add a blocker
+        $blocker = new Pawn(Color::White, $B3);
+        $game->place($blocker);
         $move = Move::make($piece)->to($B4);
         $this->assertTrue($move->isObstructed());
 
