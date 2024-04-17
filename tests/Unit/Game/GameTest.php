@@ -9,6 +9,7 @@ use App\Models\Board\Space;
 use App\Models\Game\Game;
 use App\Models\Game\Move\Move;
 use App\Models\Players\Color;
+use Illuminate\Support\Facades\Gate;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
@@ -68,6 +69,10 @@ class GameTest extends TestCase
         $oldSpace = $piece->space();
         $D4 = new Space(Column::D, Row::i4);
         $move = Move::make($piece)->to($D4);
+        Gate::shouldReceive('authorize')
+            ->once()
+            ->with('can', $move)
+            ->andReturn(true);
 
         $game->make($move);
 

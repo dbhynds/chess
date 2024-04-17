@@ -340,7 +340,7 @@ class MoveTest extends TestCase
         // Ensure the same instance always gets resolved
         app()->instance(Game::class, $game);
 
-        // Place a piece with now blockers
+        // Place a piece with no blockers
         $game->place($piece);
         $move = Move::make($piece)->to($B4);
         $this->assertFalse($move->isObstructed());
