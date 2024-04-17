@@ -7,19 +7,29 @@ use App\Models\User;
 
 class MovePolicy
 {
-    public function can(?User $user, Move $move)
+    public function can(?User $user, Move $move): bool
     {
-        return $this->travelToTheNewSpace($user, $move)
+        return $this->movePieceToSpace($user, $move)
+            && $this->travelToTheNewSpace($user, $move)
             && $this->occupyTheNewSpace($user, $move);
     }
 
-    public function travelToTheNewSpace(?User $user, Move $move)
+    public function movePieceToSpace(?User $user, Move $move): bool
     {
-        return !$move->piece()->requiresAClearPath() || !$move->isObstructed();
+        return array_reduce(
+            $move->piece()->moves(),
+            fn (bool $carry, Move $possibleMove) => $carry || $possibleMove->newSpace() === $move->newSpace(),
+            false
+        );
     }
 
-    public function occupyTheNewSpace(?User $user, Move $move)
+    public function travelToTheNewSpace(?User $user, Move $move): bool
     {
-        return !$move->newSpace()->isOccupied() || $move->capturesAPiece();
+        return ! $move->piece()->requiresAClearPath() || ! $move->isObstructed();
+    }
+
+    public function occupyTheNewSpace(?User $user, Move $move): bool
+    {
+        return ! $move->newSpace()->isOccupied() || $move->capturesAPiece();
     }
 }

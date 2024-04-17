@@ -14,10 +14,27 @@ use Tests\TestCase;
 
 class MovePolicyTest extends TestCase
 {
+    public function testMovePieceToSpace(): void
+    {
+        $B2 = new Space(Column::B, Row::i2);
+        $piece = new Pawn(Color::White, $B2);
+        app(Game::class)->place($piece);
+
+        // Move b2 to b4
+        $B4 = new Space(Column::B, Row::i4);
+        $move = Move::make($piece)->to($B4);
+        $this->assertTrue(Gate::allows('movePieceToSpace', $move));
+
+        // Move b2 to b8
+        $B8 = new Space(Column::B, Row::i8);
+        $move = Move::make($piece)->to($B8);
+        $this->assertFalse(Gate::allows('movePieceToSpace', $move));
+
+        // @todo test knights, castling, and en passant
+    }
+
     public function testTravelToTheNewSpace(): void
     {
-        $game = app(Game::class);
-
         $B2 = new Space(Column::B, Row::i2);
         $B3 = new Space(Column::B, Row::i3);
         $B4 = new Space(Column::B, Row::i4);
@@ -40,8 +57,6 @@ class MovePolicyTest extends TestCase
 
     public function testOccupyTheNewSpace(): void
     {
-        $game = app(Game::class);
-
         $B2 = new Space(Column::B, Row::i2);
         $B3 = new Space(Column::B, Row::i3);
         $C3 = new Space(Column::C, Row::i3);
