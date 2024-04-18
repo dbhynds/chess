@@ -164,7 +164,7 @@ class PawnTest extends TestCase
 
         $moves = $piece->moves();
 
-        $this->assertCount(4, $moves);
+        $this->assertCount(count($validMoves), $moves);
         foreach ($moves as $move) {
             $this->assertContains($move->newSpace()->name(), $validMoves);
         }

@@ -65,7 +65,7 @@ class QueenTest extends TestCase
 
         $moves = $piece->moves();
 
-        $this->assertCount(27, $moves);
+        $this->assertCount(count($validMoves), $moves);
         foreach ($moves as $move) {
             $this->assertContains($move->newSpace()->name(), $validMoves);
         }
