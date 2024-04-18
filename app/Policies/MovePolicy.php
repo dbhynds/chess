@@ -18,7 +18,7 @@ class MovePolicy
     {
         return array_reduce(
             $move->piece()->moves(),
-            fn (bool $carry, Move $possibleMove) => $carry || $possibleMove->newSpace() === $move->newSpace(),
+            fn (bool $carry, Move $possibleMove) => $carry || $possibleMove->newSpace()->name() === $move->newSpace()->name(),
             false
         );
     }
