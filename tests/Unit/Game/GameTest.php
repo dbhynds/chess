@@ -52,7 +52,7 @@ class GameTest extends TestCase
     {
         $game = app(Game::class);
 
-        $this->assertEquals(22, $game->activePieces()->count());
+        $this->assertEquals(30, $game->activePieces()->count());
     }
 
     public function testCapturedPiecesIsEmpty(): void

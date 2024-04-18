@@ -5,6 +5,7 @@ namespace App\Models\Game\Move;
 use App\Models\Board\Board;
 use App\Models\Board\Space;
 use App\Models\Pieces\Piece;
+use App\Models\Pieces\Pieces;
 
 class Move
 {
@@ -163,6 +164,12 @@ class Move
             $this->path(),
             fn (bool $carry, Space $space) => $carry || $space->isOccupied(),
             false);
+    }
+
+    public function isCastling(): bool
+    {
+        return $this->piece()->name === Pieces::King
+            && abs($this->vector()[0]) > 1;
     }
 
     private static function isAPosition(int $newX, int $newY): bool
