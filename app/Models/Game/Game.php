@@ -7,8 +7,10 @@ use App\Models\Board\Column;
 use App\Models\Board\Row;
 use App\Models\Board\Space;
 use App\Models\Game\Move\Move;
+use App\Models\Pieces\Bishop;
 use App\Models\Pieces\Pawn;
 use App\Models\Pieces\Piece;
+use App\Models\Pieces\Queen;
 use App\Models\Players\Color;
 use App\Models\Players\Player;
 use Illuminate\Support\Collection;
@@ -75,6 +77,9 @@ class Game
     {
         $startingConfiguration = [
             // White
+            new Bishop(Color::White, $this->board()->space(Row::i1, Column::C)),
+            new Queen(Color::White, $this->board()->space(Row::i1, Column::D)),
+            new Bishop(Color::White, $this->board()->space(Row::i1, Column::F)),
             new Pawn(Color::White, $this->board()->space(Row::i2, Column::A)),
             new Pawn(Color::White, $this->board()->space(Row::i2, Column::B)),
             new Pawn(Color::White, $this->board()->space(Row::i2, Column::C)),
@@ -84,6 +89,9 @@ class Game
             new Pawn(Color::White, $this->board()->space(Row::i2, Column::G)),
             new Pawn(Color::White, $this->board()->space(Row::i2, Column::H)),
             // Black
+            new Bishop(Color::Black, $this->board()->space(Row::i8, Column::C)),
+            new Queen(Color::Black, $this->board()->space(Row::i8, Column::D)),
+            new Bishop(Color::Black, $this->board()->space(Row::i8, Column::F)),
             new Pawn(Color::Black, $this->board()->space(Row::i7, Column::A)),
             new Pawn(Color::Black, $this->board()->space(Row::i7, Column::B)),
             new Pawn(Color::Black, $this->board()->space(Row::i7, Column::C)),

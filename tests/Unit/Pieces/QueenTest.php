@@ -5,12 +5,12 @@ namespace Tests\Unit\Pieces;
 use App\Models\Board\Column;
 use App\Models\Board\Row;
 use App\Models\Board\Space;
-use App\Models\Pieces\Bishop;
 use App\Models\Pieces\Pieces;
+use App\Models\Pieces\Queen;
 use App\Models\Players\Color;
 use PHPUnit\Framework\TestCase;
 
-class BishopTest extends TestCase
+class QueenTest extends TestCase
 {
     private Space $space;
 
@@ -21,49 +21,51 @@ class BishopTest extends TestCase
 
     public function testInstantiates(): void
     {
-        $piece = new Bishop(Color::White, $this->space);
-        $this->assertInstanceOf(Bishop::class, $piece);
+        $piece = new Queen(Color::White, $this->space);
+        $this->assertInstanceOf(Queen::class, $piece);
     }
 
-    public function testNameReturnsBishop(): void
+    public function testNameReturnsQueen(): void
     {
-        $piece = new Bishop(Color::White, $this->space);
+        $piece = new Queen(Color::White, $this->space);
 
-        $this->assertEquals(Pieces::Bishop, $piece->name());
+        $this->assertEquals(Pieces::Queen, $piece->name());
     }
 
     public function testPossibleMovesReturnsPossibleMovesForWhite(): void
     {
-        $piece = new Bishop(Color::White, $this->space);
+        $piece = new Queen(Color::White, $this->space);
 
-        $this->assertCount(28, $piece->possibleMoves());
+        $this->assertCount(56, $piece->possibleMoves());
     }
 
     public function testRequiresAClearPathReturnsTrue(): void
     {
-        $piece = new Bishop(Color::White, $this->space);
+        $piece = new Queen(Color::White, $this->space);
 
         $this->assertTrue($piece->requiresAClearPath());
     }
 
     public function testFilteredMovesReturnsValidMoves(): void
     {
-        $piece = new Bishop(Color::White, $this->space);
+        $piece = new Queen(Color::White, $this->space);
 
-        $this->assertCount(13, $piece->filteredMoves());
+        $this->assertCount(27, $piece->filteredMoves());
     }
 
     public function testMovesReturnsValidMoves(): void
     {
-        $piece = new Bishop(Color::Black, $this->space);
+        $piece = new Queen(Color::Black, $this->space);
         $validMoves = [
             'A1', 'B2', 'C3', 'E5', 'F6', 'G7', 'H8',
             'A7', 'B6', 'C5', 'E3', 'F2', 'G1',
+            'D1', 'D2', 'D3', 'D5', 'D6', 'D7', 'D8',
+            'A4', 'B4', 'C4', 'E4', 'F4', 'G4', 'H4',
         ];
 
         $moves = $piece->moves();
 
-        $this->assertCount(13, $moves);
+        $this->assertCount(27, $moves);
         foreach ($moves as $move) {
             $this->assertContains($move->newSpace()->name(), $validMoves);
         }

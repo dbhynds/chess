@@ -4,11 +4,11 @@ namespace App\Models\Pieces;
 
 use App\Models\Game\Move\Move;
 
-class Bishop extends Piece
+class Queen extends Piece
 {
     public function name(): Pieces
     {
-        return Pieces::Bishop;
+        return Pieces::Queen;
     }
 
     public function possibleMoves(): array
@@ -19,6 +19,8 @@ class Bishop extends Piece
             if ($coordinate !== 0) {
                 $moves[] = Move::make($this)->withVector($coordinate, $coordinate);
                 $moves[] = Move::make($this)->withVector(-$coordinate, $coordinate);
+                $moves[] = Move::make($this)->withVector(0, $coordinate);
+                $moves[] = Move::make($this)->withVector($coordinate, 0);
             }
         }
 
