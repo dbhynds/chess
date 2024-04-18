@@ -19,12 +19,12 @@ abstract class Piece
 
     abstract public function name(): Pieces;
 
-    public function space(): ?Space
+    final public function space(): ?Space
     {
         return $this->space;
     }
 
-    public function isCaptured(): bool
+    final public function isCaptured(): bool
     {
         return $this->isCaptured;
     }
@@ -37,7 +37,7 @@ abstract class Piece
         app(Game::class)->removeFromTheBoard($oldSpace, $this);
     }
 
-    public function setSpace(Space $space): void
+    final public function setSpace(Space $space): void
     {
         $this->space = $space;
     }
@@ -49,9 +49,12 @@ abstract class Piece
 
     abstract public function possibleMoves(): array;
 
-    abstract public function moves(): array;
+    public function moves(): array
+    {
+        return $this->filteredMoves();
+    }
 
-    public function filteredMoves(): array
+    final public function filteredMoves(): array
     {
         return array_filter($this->possibleMoves(), fn ($move) => $move->isOnTheBoard());
     }
