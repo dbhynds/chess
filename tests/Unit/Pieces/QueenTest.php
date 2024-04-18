@@ -32,7 +32,7 @@ class QueenTest extends TestCase
         $this->assertEquals(Pieces::Queen, $piece->name());
     }
 
-    public function testPossibleMovesReturnsPossibleMovesForWhite(): void
+    public function testPossibleMovesReturnsPossibleMoves(): void
     {
         $piece = new Queen(Color::White, $this->space);
 

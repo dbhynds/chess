@@ -9,6 +9,9 @@ class MovePolicy
 {
     public function can(?User $user, Move $move): bool
     {
+        // @todo prevent if king in check and it doesn't block
+        // @todo prevent if move puts king in check
+        // @todo prevent if special move (castling, en passant) is prohibited
         return $this->movePieceToSpace($user, $move)
             && $this->travelToTheNewSpace($user, $move)
             && $this->occupyTheNewSpace($user, $move);
@@ -30,6 +33,7 @@ class MovePolicy
 
     public function occupyTheNewSpace(?User $user, Move $move): bool
     {
+        // @todo check pawns
         return ! $move->newSpace()->isOccupied() || $move->capturesAPiece();
     }
 }

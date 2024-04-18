@@ -32,7 +32,7 @@ class BishopTest extends TestCase
         $this->assertEquals(Pieces::Bishop, $piece->name());
     }
 
-    public function testPossibleMovesReturnsPossibleMovesForWhite(): void
+    public function testPossibleMovesReturnsPossibleMoves(): void
     {
         $piece = new Bishop(Color::White, $this->space);
 
