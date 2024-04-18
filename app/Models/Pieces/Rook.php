@@ -24,4 +24,6 @@ class Rook extends Piece
 
         return $moves;
     }
+
+    // @todo prevent castling if moved
 }
