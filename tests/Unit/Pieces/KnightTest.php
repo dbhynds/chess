@@ -16,7 +16,7 @@ class KnightTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->space = new Space(File::D, Rank::i4);
+        $this->space = new Space(File::d, Rank::i4);
     }
 
     public function testInstantiates(): void
@@ -57,10 +57,10 @@ class KnightTest extends TestCase
     {
         $piece = new Knight(Color::Black, $this->space);
         $validMoves = [
-            'A2', 'B1',
-            'A6', 'B7',
-            'G2', 'F1',
-            'G6', 'F7',
+            'a2', 'b1',
+            'a6', 'b7',
+            'g2', 'f1',
+            'g6', 'f7',
         ];
 
         $moves = $piece->moves();

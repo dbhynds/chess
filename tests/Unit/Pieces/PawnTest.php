@@ -17,7 +17,7 @@ class PawnTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->space = new Space(File::B, Rank::i2);
+        $this->space = new Space(File::b, Rank::i2);
     }
 
     public function testInstantiates(): void
@@ -58,8 +58,8 @@ class PawnTest extends TestCase
 
     public function testSetSpaceSetsANewSpace(): void
     {
-        $b2 = new Space(File::B, Rank::i2);
-        $c2 = new Space(File::C, Rank::i2);
+        $b2 = new Space(File::b, Rank::i2);
+        $c2 = new Space(File::c, Rank::i2);
         $piece = new Pawn(Color::White, $this->space);
 
         $piece->setSpace($c2);
@@ -90,7 +90,7 @@ class PawnTest extends TestCase
 
     public function testFilteredMovesReturnsValidMoves(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $piece = new Pawn(Color::White, $space);
 
         $this->assertCount(8, $piece->filteredMoves());
@@ -98,7 +98,7 @@ class PawnTest extends TestCase
 
     public function testMoveIsValidForThisColorReturnsTrueForWhiteUp(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $piece = new Pawn(Color::White, $space);
         $move = Move::make($piece)->withVector(0, 1);
 
@@ -107,7 +107,7 @@ class PawnTest extends TestCase
 
     public function testMoveIsValidForThisColorReturnsFalseForWhiteDown(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $piece = new Pawn(Color::White, $space);
         $move = Move::make($piece)->withVector(0, -1);
 
@@ -116,7 +116,7 @@ class PawnTest extends TestCase
 
     public function testMoveIsValidForThisColorReturnsTrueForBlackDown(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $piece = new Pawn(Color::Black, $space);
         $move = Move::make($piece)->withVector(0, -1);
 
@@ -125,7 +125,7 @@ class PawnTest extends TestCase
 
     public function testMoveIsValidForThisColorReturnsFalseForBlackUp(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $piece = new Pawn(Color::Black, $space);
         $move = Move::make($piece)->withVector(0, 1);
 
@@ -134,9 +134,9 @@ class PawnTest extends TestCase
 
     public function testMovesReturnsValidMovesForWhite(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $piece = new Pawn(Color::White, $space);
-        $validMoves = ['C5', 'D5', 'D6', 'E5'];
+        $validMoves = ['c5', 'd5', 'd6', 'e5'];
 
         $moves = $piece->moves();
 
@@ -148,7 +148,7 @@ class PawnTest extends TestCase
 
     public function testMovesReturnsNoValidMovesForWhiteAtEndOfTheBoard(): void
     {
-        $space = new Space(File::D, Rank::i8);
+        $space = new Space(File::d, Rank::i8);
         $piece = new Pawn(Color::White, $space);
 
         $moves = $piece->moves();
@@ -158,9 +158,9 @@ class PawnTest extends TestCase
 
     public function testMovesReturnsValidMovesForBlack(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $piece = new Pawn(Color::Black, $space);
-        $validMoves = ['C3', 'D3', 'D2', 'E3'];
+        $validMoves = ['c3', 'd3', 'd2', 'e3'];
 
         $moves = $piece->moves();
 
@@ -172,7 +172,7 @@ class PawnTest extends TestCase
 
     public function testCanCapture(): void
     {
-        $space = new Space(File::D, Rank::i4);
+        $space = new Space(File::d, Rank::i4);
         $black = new Pawn(Color::Black, $space);
         $white = new Pawn(Color::White, $space);
 

@@ -16,17 +16,17 @@ class MovePolicyTest extends TestCase
 {
     public function testMovePieceToSpace(): void
     {
-        $b2 = new Space(File::B, Rank::i2);
+        $b2 = new Space(File::b, Rank::i2);
         $piece = new Pawn(Color::White, $b2);
         app(Game::class)->place($piece);
 
         // Move b2 to b4
-        $b4 = new Space(File::B, Rank::i4);
+        $b4 = new Space(File::b, Rank::i4);
         $move = Move::make($piece)->to($b4);
         $this->assertTrue(Gate::allows('movePieceToSpace', $move));
 
         // Move b2 to b8
-        $b8 = new Space(File::B, Rank::i8);
+        $b8 = new Space(File::b, Rank::i8);
         $move = Move::make($piece)->to($b8);
         $this->assertFalse(Gate::allows('movePieceToSpace', $move));
 
@@ -35,9 +35,9 @@ class MovePolicyTest extends TestCase
 
     public function testTravelToTheNewSpace(): void
     {
-        $b2 = new Space(File::B, Rank::i2);
-        $b3 = new Space(File::B, Rank::i3);
-        $b4 = new Space(File::B, Rank::i4);
+        $b2 = new Space(File::b, Rank::i2);
+        $b3 = new Space(File::b, Rank::i3);
+        $b4 = new Space(File::b, Rank::i4);
         $piece = new Pawn(Color::White, $b2);
         $game = app(Game::class);
 
@@ -57,9 +57,9 @@ class MovePolicyTest extends TestCase
 
     public function testOccupyTheNewSpace(): void
     {
-        $b2 = new Space(File::B, Rank::i2);
-        $b3 = new Space(File::B, Rank::i3);
-        $c3 = new Space(File::C, Rank::i3);
+        $b2 = new Space(File::b, Rank::i2);
+        $b3 = new Space(File::b, Rank::i3);
+        $c3 = new Space(File::c, Rank::i3);
         $piece = new Pawn(Color::White, $b2);
         $game = app(Game::class);
         $game->place($piece);

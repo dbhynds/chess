@@ -27,10 +27,10 @@ class King extends Piece
             Move::make($this)->withVector(-1, 1),
             Move::make($this)->withVector(-1, 1),
             // Castle moves
-            Move::make($this)->to(new Space(File::C, Rank::i1)),
-            Move::make($this)->to(new Space(File::G, Rank::i1)),
-            Move::make($this)->to(new Space(File::C, Rank::i8)),
-            Move::make($this)->to(new Space(File::G, Rank::i8)),
+            Move::make($this)->to(new Space(File::c, Rank::i1)),
+            Move::make($this)->to(new Space(File::g, Rank::i1)),
+            Move::make($this)->to(new Space(File::c, Rank::i8)),
+            Move::make($this)->to(new Space(File::g, Rank::i8)),
         ];
     }
 

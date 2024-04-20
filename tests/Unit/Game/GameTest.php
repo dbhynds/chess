@@ -67,7 +67,7 @@ class GameTest extends TestCase
         $game = app(Game::class);
         $piece = $game->activePieces()->first();
         $oldSpace = $piece->space();
-        $d4 = new Space(File::D, Rank::i4);
+        $d4 = new Space(File::d, Rank::i4);
         $move = Move::make($piece)->to($d4);
         Gate::shouldReceive('authorize')
             ->once()
@@ -87,7 +87,7 @@ class GameTest extends TestCase
         $piece = $game->activePieces()->first();
         $this->assertTrue($game->hasAPieceOn($piece->space()));
 
-        $d4 = new Space(File::D, Rank::i4);
+        $d4 = new Space(File::d, Rank::i4);
         $this->assertFalse($game->hasAPieceOn($d4));
     }
 

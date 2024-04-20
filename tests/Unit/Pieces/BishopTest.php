@@ -16,7 +16,7 @@ class BishopTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->space = new Space(File::D, Rank::i4);
+        $this->space = new Space(File::d, Rank::i4);
     }
 
     public function testInstantiates(): void
@@ -57,8 +57,8 @@ class BishopTest extends TestCase
     {
         $piece = new Bishop(Color::Black, $this->space);
         $validMoves = [
-            'A1', 'B2', 'C3', 'E5', 'F6', 'G7', 'H8',
-            'A7', 'B6', 'C5', 'E3', 'F2', 'G1',
+            'a1', 'b2', 'c3', 'e5', 'f6', 'g7', 'h8',
+            'a7', 'b6', 'c5', 'e3', 'f2', 'g1',
         ];
 
         $moves = $piece->moves();

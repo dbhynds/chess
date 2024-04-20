@@ -16,10 +16,10 @@ class PawnTest extends TestCase
     {
         $game = app(Game::class);
 
-        $d2 = new Space(File::D, Rank::i2);
-        $d4 = new Space(File::D, Rank::i4);
-        $e7 = new Space(File::E, Rank::i7);
-        $e5 = new Space(File::E, Rank::i5);
+        $d2 = new Space(File::d, Rank::i2);
+        $d4 = new Space(File::d, Rank::i4);
+        $e7 = new Space(File::e, Rank::i7);
+        $e5 = new Space(File::e, Rank::i5);
 
         // d4
         $game->make(Move::make($game->pieceOn($d2))->to($d4));
@@ -29,7 +29,7 @@ class PawnTest extends TestCase
         $move = Move::make($game->pieceOn($d4))->to($e5);
         $game->make($move);
 
-        $this->assertTrue($game->pieceOn(new Space(File::E, Rank::i5))->isWhite());
+        $this->assertTrue($game->pieceOn(new Space(File::e, Rank::i5))->isWhite());
         $this->assertEquals(1, $game->capturedPieces()->count());
         $capturedPiece = $game->capturedPieces()->first();
         $this->assertInstanceOf(Pawn::class, $capturedPiece);

@@ -16,7 +16,7 @@ class RookTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->space = new Space(File::D, Rank::i4);
+        $this->space = new Space(File::d, Rank::i4);
     }
 
     public function testInstantiates(): void
@@ -57,8 +57,8 @@ class RookTest extends TestCase
     {
         $piece = new Rook(Color::Black, $this->space);
         $validMoves = [
-            'D1', 'D2', 'D3', 'D5', 'D6', 'D7', 'D8',
-            'A4', 'B4', 'C4', 'E4', 'F4', 'G4', 'H4',
+            'd1', 'd2', 'd3', 'd5', 'd6', 'd7', 'd8',
+            'a4', 'b4', 'c4', 'e4', 'f4', 'g4', 'h4',
         ];
 
         $moves = $piece->moves();
