@@ -58,13 +58,13 @@ class PawnTest extends TestCase
 
     public function testSetSpaceSetsANewSpace(): void
     {
-        $B2 = new Space(File::B, Rank::i2);
-        $C2 = new Space(File::C, Rank::i2);
+        $b2 = new Space(File::B, Rank::i2);
+        $c2 = new Space(File::C, Rank::i2);
         $piece = new Pawn(Color::White, $this->space);
 
-        $piece->setSpace($C2);
+        $piece->setSpace($c2);
 
-        $this->assertEquals($C2, $piece->space());
+        $this->assertEquals($c2, $piece->space());
     }
 
     public function testNameReturnsPawn(): void

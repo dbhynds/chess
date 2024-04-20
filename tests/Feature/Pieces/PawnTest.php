@@ -16,17 +16,17 @@ class PawnTest extends TestCase
     {
         $game = app(Game::class);
 
-        $D2 = new Space(File::D, Rank::i2);
-        $D4 = new Space(File::D, Rank::i4);
-        $E7 = new Space(File::E, Rank::i7);
-        $E5 = new Space(File::E, Rank::i5);
+        $d2 = new Space(File::D, Rank::i2);
+        $d4 = new Space(File::D, Rank::i4);
+        $e7 = new Space(File::E, Rank::i7);
+        $e5 = new Space(File::E, Rank::i5);
 
         // d4
-        $game->make(Move::make($game->pieceOn($D2))->to($D4));
+        $game->make(Move::make($game->pieceOn($d2))->to($d4));
         // e5
-        $game->make(Move::make($game->pieceOn($E7))->to($E5));
+        $game->make(Move::make($game->pieceOn($e7))->to($e5));
         // dxe5
-        $move = Move::make($game->pieceOn($D4))->to($E5);
+        $move = Move::make($game->pieceOn($d4))->to($e5);
         $game->make($move);
 
         $this->assertTrue($game->pieceOn(new Space(File::E, Rank::i5))->isWhite());

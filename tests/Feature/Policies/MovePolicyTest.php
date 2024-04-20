@@ -16,18 +16,18 @@ class MovePolicyTest extends TestCase
 {
     public function testMovePieceToSpace(): void
     {
-        $B2 = new Space(File::B, Rank::i2);
-        $piece = new Pawn(Color::White, $B2);
+        $b2 = new Space(File::B, Rank::i2);
+        $piece = new Pawn(Color::White, $b2);
         app(Game::class)->place($piece);
 
         // Move b2 to b4
-        $B4 = new Space(File::B, Rank::i4);
-        $move = Move::make($piece)->to($B4);
+        $b4 = new Space(File::B, Rank::i4);
+        $move = Move::make($piece)->to($b4);
         $this->assertTrue(Gate::allows('movePieceToSpace', $move));
 
         // Move b2 to b8
-        $B8 = new Space(File::B, Rank::i8);
-        $move = Move::make($piece)->to($B8);
+        $b8 = new Space(File::B, Rank::i8);
+        $move = Move::make($piece)->to($b8);
         $this->assertFalse(Gate::allows('movePieceToSpace', $move));
 
         // @todo test knights, castling, and en passant
@@ -35,21 +35,21 @@ class MovePolicyTest extends TestCase
 
     public function testTravelToTheNewSpace(): void
     {
-        $B2 = new Space(File::B, Rank::i2);
-        $B3 = new Space(File::B, Rank::i3);
-        $B4 = new Space(File::B, Rank::i4);
-        $piece = new Pawn(Color::White, $B2);
+        $b2 = new Space(File::B, Rank::i2);
+        $b3 = new Space(File::B, Rank::i3);
+        $b4 = new Space(File::B, Rank::i4);
+        $piece = new Pawn(Color::White, $b2);
         $game = app(Game::class);
 
         // Place a piece with no blockers
         $game->place($piece);
-        $move = Move::make($piece)->to($B4);
+        $move = Move::make($piece)->to($b4);
         $this->assertTrue(Gate::allows('travelToTheNewSpace', $move));
 
         // Now add a blocker
-        $blocker = new Pawn(Color::White, $B3);
+        $blocker = new Pawn(Color::White, $b3);
         $game->place($blocker);
-        $move = Move::make($piece)->to($B4);
+        $move = Move::make($piece)->to($b4);
         $this->assertFalse(Gate::allows('travelToTheNewSpace', $move));
 
         // @todo test knights, castling, and en passant
@@ -57,27 +57,27 @@ class MovePolicyTest extends TestCase
 
     public function testOccupyTheNewSpace(): void
     {
-        $B2 = new Space(File::B, Rank::i2);
-        $B3 = new Space(File::B, Rank::i3);
-        $C3 = new Space(File::C, Rank::i3);
-        $piece = new Pawn(Color::White, $B2);
+        $b2 = new Space(File::B, Rank::i2);
+        $b3 = new Space(File::B, Rank::i3);
+        $c3 = new Space(File::C, Rank::i3);
+        $piece = new Pawn(Color::White, $b2);
         $game = app(Game::class);
         $game->place($piece);
 
         // The target space is not occupied
-        $move = Move::make($piece)->to($B3);
+        $move = Move::make($piece)->to($b3);
         $this->assertTrue(Gate::allows('occupyTheNewSpace', $move));
 
         // A friendly piece cannot be captured
-        $friendly = new Pawn(Color::White, $C3);
+        $friendly = new Pawn(Color::White, $c3);
         $game->place($friendly);
-        $move = Move::make($piece)->to($C3);
+        $move = Move::make($piece)->to($c3);
         $this->assertFalse(Gate::allows('occupyTheNewSpace', $move));
 
         // Capture the opponent
-        $opponent = new Pawn(Color::Black, $C3);
+        $opponent = new Pawn(Color::Black, $c3);
         $game->place($opponent);
-        $move = Move::make($piece)->to($C3);
+        $move = Move::make($piece)->to($c3);
         $this->assertTrue(Gate::allows('occupyTheNewSpace', $move));
     }
 }

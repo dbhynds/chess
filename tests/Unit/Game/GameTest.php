@@ -67,8 +67,8 @@ class GameTest extends TestCase
         $game = app(Game::class);
         $piece = $game->activePieces()->first();
         $oldSpace = $piece->space();
-        $D4 = new Space(File::D, Rank::i4);
-        $move = Move::make($piece)->to($D4);
+        $d4 = new Space(File::D, Rank::i4);
+        $move = Move::make($piece)->to($d4);
         Gate::shouldReceive('authorize')
             ->once()
             ->with('can', $move)
@@ -77,7 +77,7 @@ class GameTest extends TestCase
         $game->make($move);
 
         $this->assertArrayNotHasKey($oldSpace->name(), $game->activePieces());
-        $this->assertEquals($piece, $game->activePieces()[$D4->name()]);
+        $this->assertEquals($piece, $game->activePieces()[$d4->name()]);
     }
 
     public function testHasAPieceOn(): void
@@ -87,8 +87,8 @@ class GameTest extends TestCase
         $piece = $game->activePieces()->first();
         $this->assertTrue($game->hasAPieceOn($piece->space()));
 
-        $D4 = new Space(File::D, Rank::i4);
-        $this->assertFalse($game->hasAPieceOn($D4));
+        $d4 = new Space(File::D, Rank::i4);
+        $this->assertFalse($game->hasAPieceOn($d4));
     }
 
     public function testPieceOn(): void
