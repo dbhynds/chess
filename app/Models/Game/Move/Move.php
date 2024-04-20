@@ -50,13 +50,13 @@ class Move
 
     public function withVector(int $x, int $y): self
     {
-        $newX = $this->originalSpace()->columnPosition() + $x;
-        $newY = $this->originalSpace()->rowPosition() + $y;
+        $newX = $this->originalSpace()->filePosition() + $x;
+        $newY = $this->originalSpace()->rankPosition() + $y;
 
         if (! self::isAPosition($newX, $newY)) {
             $this->newSpace = null;
         } else {
-            $this->newSpace = app(Board::class)->space(Board::rows()[$newY], Board::columns()[$newX]);
+            $this->newSpace = app(Board::class)->space(Board::ranks()[$newY], Board::files()[$newX]);
         }
 
         return $this;
@@ -116,10 +116,10 @@ class Move
 
     public function vector(): array
     {
-        $originalY = $this->originalSpace()->rowPosition();
-        $originalX = $this->originalSpace()->columnPosition();
-        $newY = $this->newSpace()->rowPosition();
-        $newX = $this->newSpace()->columnPosition();
+        $originalY = $this->originalSpace()->rankPosition();
+        $originalX = $this->originalSpace()->filePosition();
+        $newY = $this->newSpace()->rankPosition();
+        $newX = $this->newSpace()->filePosition();
 
         return [
             $newX - $originalX,
@@ -143,10 +143,10 @@ class Move
         $magnitude = 1;
         while ($magnitude < $distance) {
 
-            $newX = $this->originalSpace()->columnPosition() + ($modifierX * $magnitude);
-            $newY = $this->originalSpace()->rowPosition() + ($modifierY * $magnitude);
+            $newX = $this->originalSpace()->filePosition() + ($modifierX * $magnitude);
+            $newY = $this->originalSpace()->rankPosition() + ($modifierY * $magnitude);
 
-            $path[] = app(Board::class)->space(Board::rows()[$newY], Board::columns()[$newX]);
+            $path[] = app(Board::class)->space(Board::ranks()[$newY], Board::files()[$newX]);
 
             $magnitude++;
         }

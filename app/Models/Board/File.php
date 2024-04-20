@@ -2,7 +2,7 @@
 
 namespace App\Models\Board;
 
-enum Column: string
+enum File: string
 {
     case A = 'A';
     case B = 'B';

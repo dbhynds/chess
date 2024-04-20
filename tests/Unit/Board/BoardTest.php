@@ -3,8 +3,8 @@
 namespace Tests\Unit\Board;
 
 use App\Models\Board\Board;
-use App\Models\Board\Column;
-use App\Models\Board\Row;
+use App\Models\Board\File;
+use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +27,7 @@ class BoardTest extends TestCase
     {
         $board = app(Board::class);
 
-        $space = $board->space(Row::i1, Column::A);
+        $space = $board->space(Rank::i1, File::A);
 
         $this->assertInstanceOf(Space::class, $space);
         $this->assertEquals('A1', $space->name());

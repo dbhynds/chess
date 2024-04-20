@@ -3,8 +3,8 @@
 namespace Tests\Unit\Game;
 
 use App\Models\Board\Board;
-use App\Models\Board\Column;
-use App\Models\Board\Row;
+use App\Models\Board\File;
+use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use App\Models\Game\Game;
 use App\Models\Game\Move\Move;
@@ -67,7 +67,7 @@ class GameTest extends TestCase
         $game = app(Game::class);
         $piece = $game->activePieces()->first();
         $oldSpace = $piece->space();
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $move = Move::make($piece)->to($D4);
         Gate::shouldReceive('authorize')
             ->once()
@@ -87,7 +87,7 @@ class GameTest extends TestCase
         $piece = $game->activePieces()->first();
         $this->assertTrue($game->hasAPieceOn($piece->space()));
 
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $this->assertFalse($game->hasAPieceOn($D4));
     }
 

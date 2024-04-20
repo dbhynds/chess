@@ -2,8 +2,8 @@
 
 namespace App\Models\Pieces;
 
-use App\Models\Board\Column;
-use App\Models\Board\Row;
+use App\Models\Board\File;
+use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use App\Models\Game\Move\Move;
 
@@ -27,10 +27,10 @@ class King extends Piece
             Move::make($this)->withVector(-1, 1),
             Move::make($this)->withVector(-1, 1),
             // Castle moves
-            Move::make($this)->to(new Space(Column::C, Row::i1)),
-            Move::make($this)->to(new Space(Column::G, Row::i1)),
-            Move::make($this)->to(new Space(Column::C, Row::i8)),
-            Move::make($this)->to(new Space(Column::G, Row::i8)),
+            Move::make($this)->to(new Space(File::C, Rank::i1)),
+            Move::make($this)->to(new Space(File::G, Rank::i1)),
+            Move::make($this)->to(new Space(File::C, Rank::i8)),
+            Move::make($this)->to(new Space(File::G, Rank::i8)),
         ];
     }
 

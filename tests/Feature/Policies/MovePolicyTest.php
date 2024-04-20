@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\MovePolicy;
 
-use App\Models\Board\Column;
-use App\Models\Board\Row;
+use App\Models\Board\File;
+use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use App\Models\Game\Game;
 use App\Models\Game\Move\Move;
@@ -16,17 +16,17 @@ class MovePolicyTest extends TestCase
 {
     public function testMovePieceToSpace(): void
     {
-        $B2 = new Space(Column::B, Row::i2);
+        $B2 = new Space(File::B, Rank::i2);
         $piece = new Pawn(Color::White, $B2);
         app(Game::class)->place($piece);
 
         // Move b2 to b4
-        $B4 = new Space(Column::B, Row::i4);
+        $B4 = new Space(File::B, Rank::i4);
         $move = Move::make($piece)->to($B4);
         $this->assertTrue(Gate::allows('movePieceToSpace', $move));
 
         // Move b2 to b8
-        $B8 = new Space(Column::B, Row::i8);
+        $B8 = new Space(File::B, Rank::i8);
         $move = Move::make($piece)->to($B8);
         $this->assertFalse(Gate::allows('movePieceToSpace', $move));
 
@@ -35,9 +35,9 @@ class MovePolicyTest extends TestCase
 
     public function testTravelToTheNewSpace(): void
     {
-        $B2 = new Space(Column::B, Row::i2);
-        $B3 = new Space(Column::B, Row::i3);
-        $B4 = new Space(Column::B, Row::i4);
+        $B2 = new Space(File::B, Rank::i2);
+        $B3 = new Space(File::B, Rank::i3);
+        $B4 = new Space(File::B, Rank::i4);
         $piece = new Pawn(Color::White, $B2);
         $game = app(Game::class);
 
@@ -57,9 +57,9 @@ class MovePolicyTest extends TestCase
 
     public function testOccupyTheNewSpace(): void
     {
-        $B2 = new Space(Column::B, Row::i2);
-        $B3 = new Space(Column::B, Row::i3);
-        $C3 = new Space(Column::C, Row::i3);
+        $B2 = new Space(File::B, Rank::i2);
+        $B3 = new Space(File::B, Rank::i3);
+        $C3 = new Space(File::C, Rank::i3);
         $piece = new Pawn(Color::White, $B2);
         $game = app(Game::class);
         $game->place($piece);

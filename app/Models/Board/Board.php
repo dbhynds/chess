@@ -11,23 +11,23 @@ class Board
     public function __construct()
     {
         $spaces = [];
-        foreach (self::rows() as $row) {
-            foreach (self::columns() as $column) {
-                $space = new Space($column, $row);
+        foreach (self::ranks() as $rank) {
+            foreach (self::files() as $file) {
+                $space = new Space($file, $rank);
                 $spaces[$space->name()] = $space;
             }
         }
         $this->spaces = collect($spaces);
     }
 
-    public static function rows(): array
+    public static function ranks(): array
     {
-        return Row::cases();
+        return Rank::cases();
     }
 
-    public static function columns(): array
+    public static function files(): array
     {
-        return Column::cases();
+        return File::cases();
     }
 
     /**
@@ -38,8 +38,8 @@ class Board
         return $this->spaces;
     }
 
-    public function space(Row $row, Column $column): ?Space
+    public function space(Rank $rank, File $file): ?Space
     {
-        return $this->spaces()[Space::named($row, $column)] ?? null;
+        return $this->spaces()[Space::named($rank, $file)] ?? null;
     }
 }

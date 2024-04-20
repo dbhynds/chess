@@ -3,8 +3,8 @@
 namespace App\Models\Game;
 
 use App\Models\Board\Board;
-use App\Models\Board\Column;
-use App\Models\Board\Row;
+use App\Models\Board\File;
+use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use App\Models\Game\Move\Move;
 use App\Models\Pieces\Bishop;
@@ -80,39 +80,39 @@ class Game
     {
         $startingConfiguration = [
             // White
-            new Rook(Color::White, $this->board()->space(Row::i1, Column::A)),
-            new Knight(Color::White, $this->board()->space(Row::i1, Column::B)),
-            new Bishop(Color::White, $this->board()->space(Row::i1, Column::C)),
-            new Queen(Color::White, $this->board()->space(Row::i1, Column::D)),
-            new King(Color::White, $this->board()->space(Row::i1, Column::E)),
-            new Bishop(Color::White, $this->board()->space(Row::i1, Column::F)),
-            new Knight(Color::White, $this->board()->space(Row::i1, Column::G)),
-            new Rook(Color::White, $this->board()->space(Row::i1, Column::H)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::A)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::B)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::C)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::D)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::E)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::F)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::G)),
-            new Pawn(Color::White, $this->board()->space(Row::i2, Column::H)),
+            new Rook(Color::White, $this->board()->space(Rank::i1, File::A)),
+            new Knight(Color::White, $this->board()->space(Rank::i1, File::B)),
+            new Bishop(Color::White, $this->board()->space(Rank::i1, File::C)),
+            new Queen(Color::White, $this->board()->space(Rank::i1, File::D)),
+            new King(Color::White, $this->board()->space(Rank::i1, File::E)),
+            new Bishop(Color::White, $this->board()->space(Rank::i1, File::F)),
+            new Knight(Color::White, $this->board()->space(Rank::i1, File::G)),
+            new Rook(Color::White, $this->board()->space(Rank::i1, File::H)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::A)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::B)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::C)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::D)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::E)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::F)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::G)),
+            new Pawn(Color::White, $this->board()->space(Rank::i2, File::H)),
             // Black
-            new Rook(Color::Black, $this->board()->space(Row::i8, Column::A)),
-            new Knight(Color::Black, $this->board()->space(Row::i8, Column::B)),
-            new Bishop(Color::Black, $this->board()->space(Row::i8, Column::C)),
-            new Queen(Color::Black, $this->board()->space(Row::i8, Column::D)),
-            new King(Color::Black, $this->board()->space(Row::i8, Column::E)),
-            new Bishop(Color::Black, $this->board()->space(Row::i8, Column::F)),
-            new Knight(Color::Black, $this->board()->space(Row::i8, Column::G)),
-            new Rook(Color::Black, $this->board()->space(Row::i8, Column::H)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::A)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::B)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::C)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::D)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::E)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::F)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::G)),
-            new Pawn(Color::Black, $this->board()->space(Row::i7, Column::H)),
+            new Rook(Color::Black, $this->board()->space(Rank::i8, File::A)),
+            new Knight(Color::Black, $this->board()->space(Rank::i8, File::B)),
+            new Bishop(Color::Black, $this->board()->space(Rank::i8, File::C)),
+            new Queen(Color::Black, $this->board()->space(Rank::i8, File::D)),
+            new King(Color::Black, $this->board()->space(Rank::i8, File::E)),
+            new Bishop(Color::Black, $this->board()->space(Rank::i8, File::F)),
+            new Knight(Color::Black, $this->board()->space(Rank::i8, File::G)),
+            new Rook(Color::Black, $this->board()->space(Rank::i8, File::H)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::A)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::B)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::C)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::D)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::E)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::F)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::G)),
+            new Pawn(Color::Black, $this->board()->space(Rank::i7, File::H)),
         ];
 
         foreach ($startingConfiguration as $piece) {

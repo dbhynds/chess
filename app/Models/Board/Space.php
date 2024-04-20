@@ -7,38 +7,38 @@ use App\Models\Pieces\Piece;
 
 class Space
 {
-    public function __construct(private Column $column, private Row $row)
+    public function __construct(private File $file, private Rank $rank)
     {
     }
 
-    public function row(): Row
+    public function rank(): Rank
     {
-        return $this->row;
+        return $this->rank;
     }
 
-    public function rowPosition(): int
+    public function rankPosition(): int
     {
-        return array_search($this->row(), Board::rows());
+        return array_search($this->rank(), Board::ranks());
     }
 
-    public function column(): Column
+    public function file(): File
     {
-        return $this->column;
+        return $this->file;
     }
 
-    public function columnPosition(): int
+    public function filePosition(): int
     {
-        return array_search($this->column(), Board::columns());
+        return array_search($this->file(), Board::files());
     }
 
-    public static function named(Row $row, Column $column): string
+    public static function named(Rank $rank, File $file): string
     {
-        return $column->value.$row->value;
+        return $file->value.$rank->value;
     }
 
     public function name(): string
     {
-        return self::named($this->row(), $this->column());
+        return self::named($this->rank(), $this->file());
     }
 
     public function isOccupied(): bool

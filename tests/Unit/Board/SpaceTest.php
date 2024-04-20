@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Board;
 
-use App\Models\Board\Column;
-use App\Models\Board\Row;
+use App\Models\Board\File;
+use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use PHPUnit\Framework\TestCase;
 
@@ -11,50 +11,50 @@ class SpaceTest extends TestCase
 {
     public function testSpaceInstantiates(): void
     {
-        $space = new Space(Column::A, Row::i1);
+        $space = new Space(File::A, Rank::i1);
         $this->assertInstanceOf(Space::class, $space);
     }
 
-    public function testHasARow(): void
+    public function testHasARank(): void
     {
-        $space = new Space(Column::A, Row::i1);
+        $space = new Space(File::A, Rank::i1);
 
-        $this->assertEquals(Row::i1, $space->row());
+        $this->assertEquals(Rank::i1, $space->rank());
     }
 
-    public function testHasAColumn(): void
+    public function testHasAFile(): void
     {
-        $space = new Space(Column::A, Row::i1);
+        $space = new Space(File::A, Rank::i1);
 
-        $this->assertEquals(Column::A, $space->column());
+        $this->assertEquals(File::A, $space->file());
     }
 
     public function testHasAName(): void
     {
-        $space = new Space(Column::A, Row::i1);
+        $space = new Space(File::A, Rank::i1);
 
         $this->assertEquals('A1', $space->name());
     }
 
-    public function testRowPositionReturnsRow(): void
+    public function testRankPositionReturnsRank(): void
     {
-        $space = new Space(Column::A, Row::i1);
+        $space = new Space(File::A, Rank::i1);
 
-        $this->assertEquals(0, $space->rowPosition());
+        $this->assertEquals(0, $space->rankPosition());
 
-        $space = new Space(Column::A, Row::i8);
+        $space = new Space(File::A, Rank::i8);
 
-        $this->assertEquals(7, $space->rowPosition());
+        $this->assertEquals(7, $space->rankPosition());
     }
 
-    public function testColumnPositionReturnsColumn(): void
+    public function testFilePositionReturnsFile(): void
     {
-        $space = new Space(Column::A, Row::i1);
+        $space = new Space(File::A, Rank::i1);
 
-        $this->assertEquals(0, $space->columnPosition());
+        $this->assertEquals(0, $space->filePosition());
 
-        $space = new Space(Column::H, Row::i1);
+        $space = new Space(File::H, Rank::i1);
 
-        $this->assertEquals(7, $space->columnPosition());
+        $this->assertEquals(7, $space->filePosition());
     }
 }

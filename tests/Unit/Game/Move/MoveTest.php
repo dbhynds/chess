@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Game\Move;
 
-use App\Models\Board\Column;
-use App\Models\Board\Row;
+use App\Models\Board\File;
+use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use App\Models\Game\Game;
 use App\Models\Game\Move\Direction;
@@ -16,7 +16,7 @@ class MoveTest extends TestCase
 {
     public function testInstantiates(): void
     {
-        $H1 = new Space(Column::H, Row::i1);
+        $H1 = new Space(File::H, Rank::i1);
         $piece = new Pawn(Color::White, $H1);
         $move = new Move($piece);
 
@@ -25,7 +25,7 @@ class MoveTest extends TestCase
 
     public function testMakeInstantiates(): void
     {
-        $H1 = new Space(Column::H, Row::i1);
+        $H1 = new Space(File::H, Rank::i1);
         $piece = new Pawn(Color::White, $H1);
         $move = Move::make($piece);
 
@@ -34,7 +34,7 @@ class MoveTest extends TestCase
 
     public function testPieceReturnsPiece(): void
     {
-        $H1 = new Space(Column::H, Row::i1);
+        $H1 = new Space(File::H, Rank::i1);
         $piece = new Pawn(Color::White, $H1);
         $move = new Move($piece);
 
@@ -45,7 +45,7 @@ class MoveTest extends TestCase
 
     public function testOriginalSpaceReturnsOriginalSpace(): void
     {
-        $H1 = new Space(Column::H, Row::i1);
+        $H1 = new Space(File::H, Rank::i1);
         $piece = new Pawn(Color::White, $H1);
         $move = new Move($piece);
 
@@ -56,7 +56,7 @@ class MoveTest extends TestCase
 
     public function testNewSpaceReturnsOriginalSpaceIfNotMoved(): void
     {
-        $H1 = new Space(Column::H, Row::i1);
+        $H1 = new Space(File::H, Rank::i1);
         $piece = new Pawn(Color::White, $H1);
         $move = new Move($piece);
 
@@ -67,8 +67,8 @@ class MoveTest extends TestCase
 
     public function testToSetsNewSpace(): void
     {
-        $H1 = new Space(Column::H, Row::i1);
-        $A8 = new Space(Column::A, Row::i8);
+        $H1 = new Space(File::H, Rank::i1);
+        $A8 = new Space(File::A, Rank::i8);
         $piece = new Pawn(Color::White, $H1);
         $move = Move::make($piece)->to($A8);
 
@@ -77,7 +77,7 @@ class MoveTest extends TestCase
 
     public function testVectorReturnsTheSpaceAboveD4(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(0, 1);
@@ -88,7 +88,7 @@ class MoveTest extends TestCase
 
     public function testVectorReturnsTheSpaceTwoAboveD4(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(0, 2);
@@ -99,7 +99,7 @@ class MoveTest extends TestCase
 
     public function testVectorReturnsTheSpaceLeftOfD4(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(-1, 0);
@@ -110,7 +110,7 @@ class MoveTest extends TestCase
 
     public function testVectorReturnsTheSpaceDiagonallyRightAndDownFromD4(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(1, -1);
@@ -121,7 +121,7 @@ class MoveTest extends TestCase
 
     public function testVectorReturnsNullIfOffTheBoard(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(5, 5);
@@ -132,7 +132,7 @@ class MoveTest extends TestCase
 
     public function testIsDirectionUp(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(0, 1);
@@ -153,7 +153,7 @@ class MoveTest extends TestCase
 
     public function testIsDirectionDown(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(0, -1);
@@ -174,7 +174,7 @@ class MoveTest extends TestCase
 
     public function testIsDirectionLeft(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(-1, 0);
@@ -195,7 +195,7 @@ class MoveTest extends TestCase
 
     public function testIsDirectionRight(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->withVector(1, 0);
@@ -240,10 +240,10 @@ class MoveTest extends TestCase
 
     public function testVector(): void
     {
-        $D4 = new Space(Column::D, Row::i4);
-        $D6 = new Space(Column::D, Row::i6);
-        $C5 = new Space(Column::C, Row::i5);
-        $E3 = new Space(Column::E, Row::i3);
+        $D4 = new Space(File::D, Rank::i4);
+        $D6 = new Space(File::D, Rank::i6);
+        $C5 = new Space(File::C, Rank::i5);
+        $E3 = new Space(File::E, Rank::i3);
         $piece = new Pawn(Color::White, $D4);
 
         $move = Move::make($piece)->to($D6);
@@ -259,17 +259,17 @@ class MoveTest extends TestCase
     public function testPath(): void
     {
         // Piece on D4
-        $D4 = new Space(Column::D, Row::i4);
+        $D4 = new Space(File::D, Rank::i4);
         $piece = new Pawn(Color::White, $D4);
 
         // Bottom left to top right
-        $A1 = new Space(Column::A, Row::i1);
-        $B2 = new Space(Column::B, Row::i2);
-        $C3 = new Space(Column::C, Row::i3);
-        $E5 = new Space(Column::E, Row::i5);
-        $F6 = new Space(Column::F, Row::i6);
-        $G7 = new Space(Column::G, Row::i7);
-        $H8 = new Space(Column::H, Row::i8);
+        $A1 = new Space(File::A, Rank::i1);
+        $B2 = new Space(File::B, Rank::i2);
+        $C3 = new Space(File::C, Rank::i3);
+        $E5 = new Space(File::E, Rank::i5);
+        $F6 = new Space(File::F, Rank::i6);
+        $G7 = new Space(File::G, Rank::i7);
+        $H8 = new Space(File::H, Rank::i8);
 
         // Diagonal, up right
         $move = Move::make($piece)->to($H8);
@@ -280,12 +280,12 @@ class MoveTest extends TestCase
         $this->assertEquals([$C3, $B2], $move->path());
 
         // Top left to bottom right
-        $A7 = new Space(Column::A, Row::i7);
-        $B6 = new Space(Column::B, Row::i6);
-        $C5 = new Space(Column::C, Row::i5);
-        $E3 = new Space(Column::E, Row::i3);
-        $F2 = new Space(Column::F, Row::i2);
-        $G1 = new Space(Column::G, Row::i1);
+        $A7 = new Space(File::A, Rank::i7);
+        $B6 = new Space(File::B, Rank::i6);
+        $C5 = new Space(File::C, Rank::i5);
+        $E3 = new Space(File::E, Rank::i3);
+        $F2 = new Space(File::F, Rank::i2);
+        $G1 = new Space(File::G, Rank::i1);
 
         // Diagonal, up left
         $move = Move::make($piece)->to($A7);
@@ -295,14 +295,14 @@ class MoveTest extends TestCase
         $move = Move::make($piece)->to($G1);
         $this->assertEquals([$E3, $F2], $move->path());
 
-        // Column 4
-        $A4 = new Space(Column::A, Row::i4);
-        $B4 = new Space(Column::B, Row::i4);
-        $C4 = new Space(Column::C, Row::i4);
-        $E4 = new Space(Column::E, Row::i4);
-        $F4 = new Space(Column::F, Row::i4);
-        $G4 = new Space(Column::G, Row::i4);
-        $H4 = new Space(Column::H, Row::i4);
+        // File 4
+        $A4 = new Space(File::A, Rank::i4);
+        $B4 = new Space(File::B, Rank::i4);
+        $C4 = new Space(File::C, Rank::i4);
+        $E4 = new Space(File::E, Rank::i4);
+        $F4 = new Space(File::F, Rank::i4);
+        $G4 = new Space(File::G, Rank::i4);
+        $H4 = new Space(File::H, Rank::i4);
 
         // Up
         $move = Move::make($piece)->to($H4);
@@ -312,14 +312,14 @@ class MoveTest extends TestCase
         $move = Move::make($piece)->to($A4);
         $this->assertEquals([$C4, $B4], $move->path());
 
-        // Row D
-        $D1 = new Space(Column::D, Row::i1);
-        $D2 = new Space(Column::D, Row::i2);
-        $D3 = new Space(Column::D, Row::i3);
-        $D5 = new Space(Column::D, Row::i5);
-        $D6 = new Space(Column::D, Row::i6);
-        $D7 = new Space(Column::D, Row::i7);
-        $D8 = new Space(Column::D, Row::i8);
+        // Rank D
+        $D1 = new Space(File::D, Rank::i1);
+        $D2 = new Space(File::D, Rank::i2);
+        $D3 = new Space(File::D, Rank::i3);
+        $D5 = new Space(File::D, Rank::i5);
+        $D6 = new Space(File::D, Rank::i6);
+        $D7 = new Space(File::D, Rank::i7);
+        $D8 = new Space(File::D, Rank::i8);
 
         // Left
         $move = Move::make($piece)->to($D1);
@@ -332,9 +332,9 @@ class MoveTest extends TestCase
 
     public function testIsObstructed(): void
     {
-        $B2 = new Space(Column::B, Row::i2);
-        $B3 = new Space(Column::B, Row::i3);
-        $B4 = new Space(Column::B, Row::i4);
+        $B2 = new Space(File::B, Rank::i2);
+        $B3 = new Space(File::B, Rank::i3);
+        $B4 = new Space(File::B, Rank::i4);
         $piece = new Pawn(Color::White, $B2);
         $game = app(Game::class);
         // Ensure the same instance always gets resolved
