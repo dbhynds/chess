@@ -7,6 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class AlgebraicNotationTest extends TestCase
 {
+    public function testIsValidReturnsFalse(): void
+    {
+        $this->assertFalse(AlgebraicNotation::isValid('LMAO'));
+    }
+
     public function testIsValidReturnsTrue(): void
     {
         $this->assertTrue(AlgebraicNotation::isValid('Qd5'));
@@ -17,7 +22,7 @@ class AlgebraicNotationTest extends TestCase
         $this->assertFalse(AlgebraicNotation::isValid('LMAO'));
     }
 
-    public function testKasparovsImmortalIsValid(): void
+    public function testKasparovVsTopalovIsValid(): void
     {
         $game = [
             'e4', 'd6', 'd4', 'Nf6', 'Nc3', 'g6', 'Be3', 'Bg7', 'Qd2', 'c6', 'f3', 'b5', 'Nge2', 'Nbd7', 'Bh6', 'Bxh6',
@@ -29,7 +34,21 @@ class AlgebraicNotationTest extends TestCase
         ];
         
         foreach ($game as $move) {
-            $this->assertTrue(AlgebraicNotation::isValid($move), $move);
+            $this->assertTrue(AlgebraicNotation::isValid($move), 'Move is not valid: '.$move);
+        }
+    }
+
+    public function testBeliavskyVsNunnIsValid(): void
+    {
+        $game = [
+            'd4', 'Nf6', 'c4', 'g6', 'Nc3', 'Bg7', 'e4', 'd6', 'f3', 'O-O', 'Be3', 'Nbd7', 'Qd2', 'c5', 'd5', 'Ne5',
+            'h3', 'Nh5', 'Bf2', 'f5', 'exf5', 'Rxf5', 'g4', 'Rxf3', 'gxh5', 'Qf8', 'Ne4', 'Bh6', 'Qc2', 'Qf4', 'Ne2',
+            'Rxf2', 'Nxf2', 'Nf3+', 'Kd1', 'Qh4', 'Nd3', 'Bf5', 'Nec1', 'Nd2', 'hxg6', 'hxg6', 'Bg2', 'Nxc4', 'Qf2',
+            'Ne3+', 'Ke2', 'Qc4', 'Bf3', 'Rf8', 'Rg1', 'Nc2', 'Kd1', 'Bxd3', 
+        ];
+        
+        foreach ($game as $move) {
+            $this->assertTrue(AlgebraicNotation::isValid($move), 'Move is not valid: '.$move);
         }
     }
 }
