@@ -62,7 +62,6 @@ class Move
                 $pieces[] = $this->piece()->notation();
                 // @todo disambiguation
                 // $pieces[] = $this->disambiguation(),
-
             }
             if ($this->capturesAPiece()) {
                 $pieces[] = 'x';
