@@ -4,14 +4,11 @@ namespace App\Models\Game\History;
 
 class AlgebraicNotation
 {
-
     public const rank = '[1-8]';
 
     public const file = '[a-h]';
 
     public const space = self::file.self::rank;
-
-    public const pawn = self::space;
 
     public const majorPieces = '[RNBQK]';
 
@@ -23,7 +20,7 @@ class AlgebraicNotation
 
     public const checks = '[+#]'.self::zeroOrOne;
 
-    public const promotes = self::pawn.'='.self::majorPieces;
+    public const promotes = self::file.'[1,8]='.self::majorPieces;
 
     public const castle = 'O(-O){1,2}';
 
@@ -44,6 +41,7 @@ class AlgebraicNotation
                             // Disambiguating 
                             '(', self::file, '|', self::rank, '|', self::space, ')', self::zeroOrOne,
                         ')',
+                        // Maybe captures
                         self::captures,
                         self::space,
                     ')',

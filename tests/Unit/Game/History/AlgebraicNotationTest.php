@@ -17,9 +17,32 @@ class AlgebraicNotationTest extends TestCase
         $this->assertTrue(AlgebraicNotation::isValid('Qd5'));
     }
 
-    public function testIsValidReturnsFalse(): void
+    public function testIsValidTestsCastling(): void
     {
-        $this->assertFalse(AlgebraicNotation::isValid('LMAO'));
+        $this->assertTrue(AlgebraicNotation::isValid('O-O'));
+        $this->assertTrue(AlgebraicNotation::isValid('O-O-O'));
+        $this->assertFalse(AlgebraicNotation::isValid('O-O-O-O'));
+    }
+
+    public function testIsValidTestsPromotion(): void
+    {
+        $this->assertTrue(AlgebraicNotation::isValid('a8=Q'));
+        $this->assertTrue(AlgebraicNotation::isValid('b1=N'));
+        $this->assertFalse(AlgebraicNotation::isValid('c2=Q'));
+    }
+
+    public function testIsValidTestsDisambiguation(): void
+    {
+        $this->assertTrue(AlgebraicNotation::isValid('Qdf4'));
+        $this->assertTrue(AlgebraicNotation::isValid('R4e8'));
+        $this->assertTrue(AlgebraicNotation::isValid('Qh4e1'));
+        $this->assertTrue(AlgebraicNotation::isValid('Qh4xe1'));
+    }
+
+    public function testIsValidTestsCaptures(): void
+    {
+        $this->assertTrue(AlgebraicNotation::isValid('Rxa3'));
+        $this->assertTrue(AlgebraicNotation::isValid('cxb1'));
     }
 
     public function testKasparovVsTopalovIsValid(): void
@@ -32,7 +55,7 @@ class AlgebraicNotationTest extends TestCase
             'Qxf6', 'Kxa3', 'Qxa6+', 'Kxb4', 'c3+', 'Kxc3', 'Qa1+', 'Kd2', 'Qb2+', 'Kd1', 'Bf1', 'Rd2', 'Rd7', 'Rxd7',
             'Bxc4', 'bxc4', 'Qxh8', 'Rd3', 'Qa8', 'c3', 'Qa4+', 'Ke1', 'f4', 'f5', 'Kc1', 'Rd2', 'Qa7',
         ];
-        
+
         foreach ($game as $move) {
             $this->assertTrue(AlgebraicNotation::isValid($move), 'Move is not valid: '.$move);
         }
@@ -44,9 +67,9 @@ class AlgebraicNotationTest extends TestCase
             'd4', 'Nf6', 'c4', 'g6', 'Nc3', 'Bg7', 'e4', 'd6', 'f3', 'O-O', 'Be3', 'Nbd7', 'Qd2', 'c5', 'd5', 'Ne5',
             'h3', 'Nh5', 'Bf2', 'f5', 'exf5', 'Rxf5', 'g4', 'Rxf3', 'gxh5', 'Qf8', 'Ne4', 'Bh6', 'Qc2', 'Qf4', 'Ne2',
             'Rxf2', 'Nxf2', 'Nf3+', 'Kd1', 'Qh4', 'Nd3', 'Bf5', 'Nec1', 'Nd2', 'hxg6', 'hxg6', 'Bg2', 'Nxc4', 'Qf2',
-            'Ne3+', 'Ke2', 'Qc4', 'Bf3', 'Rf8', 'Rg1', 'Nc2', 'Kd1', 'Bxd3', 
+            'Ne3+', 'Ke2', 'Qc4', 'Bf3', 'Rf8', 'Rg1', 'Nc2', 'Kd1', 'Bxd3',
         ];
-        
+
         foreach ($game as $move) {
             $this->assertTrue(AlgebraicNotation::isValid($move), 'Move is not valid: '.$move);
         }
