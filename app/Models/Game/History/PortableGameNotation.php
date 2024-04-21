@@ -2,7 +2,7 @@
 
 namespace App\Models\Game\History;
 
-class AlgebraicNotation
+class PortableGameNotation
 {
     public const rank = '[1-8]';
 

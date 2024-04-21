@@ -2,47 +2,47 @@
 
 namespace Tests\Unit\Game\History;
 
-use App\Models\Game\History\AlgebraicNotation;
+use App\Models\Game\History\PortableGameNotation;
 use PHPUnit\Framework\TestCase;
 
-class AlgebraicNotationTest extends TestCase
+class PortableGameNotationTest extends TestCase
 {
     public function testIsValidReturnsFalse(): void
     {
-        $this->assertFalse(AlgebraicNotation::isValid('LMAO'));
+        $this->assertFalse(PortableGameNotation::isValid('LMAO'));
     }
 
     public function testIsValidReturnsTrue(): void
     {
-        $this->assertTrue(AlgebraicNotation::isValid('Qd5'));
+        $this->assertTrue(PortableGameNotation::isValid('Qd5'));
     }
 
     public function testIsValidTestsCastling(): void
     {
-        $this->assertTrue(AlgebraicNotation::isValid('O-O'));
-        $this->assertTrue(AlgebraicNotation::isValid('O-O-O'));
-        $this->assertFalse(AlgebraicNotation::isValid('O-O-O-O'));
+        $this->assertTrue(PortableGameNotation::isValid('O-O'));
+        $this->assertTrue(PortableGameNotation::isValid('O-O-O'));
+        $this->assertFalse(PortableGameNotation::isValid('O-O-O-O'));
     }
 
     public function testIsValidTestsPromotion(): void
     {
-        $this->assertTrue(AlgebraicNotation::isValid('a8=Q'));
-        $this->assertTrue(AlgebraicNotation::isValid('b1=N'));
-        $this->assertFalse(AlgebraicNotation::isValid('c2=Q'));
+        $this->assertTrue(PortableGameNotation::isValid('a8=Q'));
+        $this->assertTrue(PortableGameNotation::isValid('b1=N'));
+        $this->assertFalse(PortableGameNotation::isValid('c2=Q'));
     }
 
     public function testIsValidTestsDisambiguation(): void
     {
-        $this->assertTrue(AlgebraicNotation::isValid('Qdf4'));
-        $this->assertTrue(AlgebraicNotation::isValid('R4e8'));
-        $this->assertTrue(AlgebraicNotation::isValid('Qh4e1'));
-        $this->assertTrue(AlgebraicNotation::isValid('Qh4xe1'));
+        $this->assertTrue(PortableGameNotation::isValid('Qdf4'));
+        $this->assertTrue(PortableGameNotation::isValid('R4e8'));
+        $this->assertTrue(PortableGameNotation::isValid('Qh4e1'));
+        $this->assertTrue(PortableGameNotation::isValid('Qh4xe1'));
     }
 
     public function testIsValidTestsCaptures(): void
     {
-        $this->assertTrue(AlgebraicNotation::isValid('Rxa3'));
-        $this->assertTrue(AlgebraicNotation::isValid('cxb1'));
+        $this->assertTrue(PortableGameNotation::isValid('Rxa3'));
+        $this->assertTrue(PortableGameNotation::isValid('cxb1'));
     }
 
     public function testKasparovVsTopalovIsValid(): void
@@ -57,7 +57,7 @@ class AlgebraicNotationTest extends TestCase
         ];
 
         foreach ($game as $move) {
-            $this->assertTrue(AlgebraicNotation::isValid($move), 'Move is not valid: '.$move);
+            $this->assertTrue(PortableGameNotation::isValid($move), 'Move is not valid: '.$move);
         }
     }
 
@@ -71,7 +71,7 @@ class AlgebraicNotationTest extends TestCase
         ];
 
         foreach ($game as $move) {
-            $this->assertTrue(AlgebraicNotation::isValid($move), 'Move is not valid: '.$move);
+            $this->assertTrue(PortableGameNotation::isValid($move), 'Move is not valid: '.$move);
         }
     }
 }
