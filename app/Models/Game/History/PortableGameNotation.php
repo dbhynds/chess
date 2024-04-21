@@ -38,7 +38,7 @@ class PortableGameNotation
                     ')', '|', '(',
                         '(',
                             self::piece,
-                            // Disambiguating 
+                            // Disambiguating
                             '(', self::file, '|', self::rank, '|', self::space, ')', self::zeroOrOne,
                         ')',
                         // Maybe captures
@@ -47,7 +47,7 @@ class PortableGameNotation
                     ')',
                 ')',
                 self::checks,
-            '$/'
+            '$/',
         ]);
     }
 

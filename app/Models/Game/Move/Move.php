@@ -52,9 +52,9 @@ class Move
             } else {
                 $pieces[] = 'O-O';
             }
-        // @todo add promotion
-        // } elseif ($this->isPromoting()) {
-        //     $pieces = [$this->newSpace()->name(), '=', $this->promotionPiece()->notation()];
+            // @todo add promotion
+            // } elseif ($this->isPromoting()) {
+            //     $pieces = [$this->newSpace()->name(), '=', $this->promotionPiece()->notation()];
         } else {
             if ($this->piece()->name() === Pieces::Pawn && $this->capturesAPiece()) {
                 $pieces[] = $this->originalSpace()->file()->value;
