@@ -19,6 +19,11 @@ abstract class Piece
 
     abstract public function name(): Pieces;
 
+    final public function notation(): string
+    {
+        return $this->name()->value;
+    }
+
     final public function space(): ?Space
     {
         return $this->space;

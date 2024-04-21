@@ -74,6 +74,13 @@ class PawnTest extends TestCase
         $this->assertEquals(Pieces::Pawn, $piece->name());
     }
 
+    public function testNotation(): void
+    {
+        $piece = new Pawn(Color::White, $this->space);
+
+        $this->assertEquals(Pieces::Pawn->value, $piece->notation());
+    }
+
     public function testPossibleMovesReturnsPossibleMoves(): void
     {
         $piece = new Pawn(Color::White, $this->space);

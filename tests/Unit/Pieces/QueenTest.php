@@ -32,6 +32,13 @@ class QueenTest extends TestCase
         $this->assertEquals(Pieces::Queen, $piece->name());
     }
 
+    public function testNotation(): void
+    {
+        $piece = new Queen(Color::White, $this->space);
+
+        $this->assertEquals(Pieces::Queen->value, $piece->notation());
+    }
+
     public function testPossibleMovesReturnsPossibleMoves(): void
     {
         $piece = new Queen(Color::White, $this->space);

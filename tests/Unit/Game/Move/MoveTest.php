@@ -9,6 +9,8 @@ use App\Models\Game\Game;
 use App\Models\Game\Move\Direction;
 use App\Models\Game\Move\Move;
 use App\Models\Pieces\Pawn;
+use App\Models\Pieces\King;
+use App\Models\Pieces\Queen;
 use App\Models\Players\Color;
 use PHPUnit\Framework\TestCase;
 
@@ -352,5 +354,115 @@ class MoveTest extends TestCase
         $this->assertTrue($move->isObstructed());
 
         // @todo test pieces that don't require a clear path
+    }
+
+    public function testIsCastling(): void
+    {
+        $c1 = new Space(File::c, Rank::i1);
+        $e1 = new Space(File::e, Rank::i1);
+        $g1 = new Space(File::g, Rank::i1);
+        $piece = new King(Color::White, $e1);
+
+        $move = Move::make($piece)->to($g1);
+        $this->assertTrue($move->isCastling());
+
+        $move = Move::make($piece)->to($c1);
+        $this->assertTrue($move->isCastling());
+
+        $c8 = new Space(File::c, Rank::i8);
+        $e8 = new Space(File::e, Rank::i8);
+        $g8 = new Space(File::g, Rank::i8);
+        $piece = new King(Color::Black, $e8);
+
+        $move = Move::make($piece)->to($g8);
+        $this->assertTrue($move->isCastling());
+
+        $move = Move::make($piece)->to($c8);
+        $this->assertTrue($move->isCastling());
+
+        $d1 = new Space(File::d, Rank::i1);
+        $move = Move::make($piece)->to($d1);
+        $this->assertFalse($move->isCastling());
+
+        $piece = new Pawn(Color::White, $e1);
+        $move = Move::make($piece)->to($g1);
+        $this->assertFalse($move->isCastling());
+    }
+
+    public function testNotationForCastling(): void
+    {
+        $c1 = new Space(File::c, Rank::i1);
+        $e1 = new Space(File::e, Rank::i1);
+        $g1 = new Space(File::g, Rank::i1);
+        $piece = new King(Color::White, $e1);
+
+        $move = Move::make($piece)->to($g1);
+        $this->assertEquals('O-O', $move->notation());
+
+        $move = Move::make($piece)->to($c1);
+        $this->assertEquals('O-O-O', $move->notation());
+    }
+
+    public function testNotationForPromotion(): void
+    {
+        // @todo
+    }
+
+    public function testNotationForMajorPieces(): void
+    {
+        $b2 = new Space(File::b, Rank::i2);
+        $a3 = new Space(File::a, Rank::i3);
+        $b3 = new Space(File::b, Rank::i3);
+        $b4 = new Space(File::b, Rank::i4);
+        $c3 = new Space(File::c, Rank::i3);
+
+        $game = app(Game::class);
+        // Ensure the same instance always gets resolved
+        app()->instance(Game::class, $game);
+
+        // Place a piece
+        $piece = new Queen(Color::White, $b2);
+        $game->place($piece);
+
+        // Up one
+        $move = Move::make($piece)->to($b3);
+        $this->assertEquals('Qb3', $move->notation());
+
+        // Capture
+        $opponent = new Queen(Color::Black, $a3);
+        $game->place($opponent);
+        $move = Move::make($piece)->to($a3);
+        $this->assertEquals('Qxa3', $move->notation());
+    }
+
+    public function testNotationForPawns(): void
+    {
+        $b2 = new Space(File::b, Rank::i2);
+        $a3 = new Space(File::a, Rank::i3);
+        $b3 = new Space(File::b, Rank::i3);
+        $b4 = new Space(File::b, Rank::i4);
+        $c3 = new Space(File::c, Rank::i3);
+
+        $game = app(Game::class);
+        // Ensure the same instance always gets resolved
+        app()->instance(Game::class, $game);
+
+        // Place a piece
+        $piece = new Pawn(Color::White, $b2);
+        $game->place($piece);
+
+        // Up one
+        $move = Move::make($piece)->to($b3);
+        $this->assertEquals('b3', $move->notation());
+
+        // Up one
+        $move = Move::make($piece)->to($b4);
+        $this->assertEquals('b4', $move->notation());
+
+        // Capture
+        $opponent = new Pawn(Color::Black, $a3);
+        $game->place($opponent);
+        $move = Move::make($piece)->to($a3);
+        $this->assertEquals('bxa3', $move->notation());
     }
 }

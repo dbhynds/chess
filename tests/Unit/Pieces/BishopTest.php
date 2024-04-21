@@ -32,6 +32,13 @@ class BishopTest extends TestCase
         $this->assertEquals(Pieces::Bishop, $piece->name());
     }
 
+    public function testNotation(): void
+    {
+        $piece = new Bishop(Color::White, $this->space);
+
+        $this->assertEquals(Pieces::Bishop->value, $piece->notation());
+    }
+
     public function testPossibleMovesReturnsPossibleMoves(): void
     {
         $piece = new Bishop(Color::White, $this->space);

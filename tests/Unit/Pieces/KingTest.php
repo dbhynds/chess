@@ -32,6 +32,13 @@ class KingTest extends TestCase
         $this->assertEquals(Pieces::King, $piece->name());
     }
 
+    public function testNotation(): void
+    {
+        $piece = new King(Color::White, $this->space);
+
+        $this->assertEquals(Pieces::King->value, $piece->notation());
+    }
+
     public function testPossibleMovesReturnsPossibleMoves(): void
     {
         $piece = new King(Color::White, $this->space);

@@ -32,6 +32,13 @@ class RookTest extends TestCase
         $this->assertEquals(Pieces::Rook, $piece->name());
     }
 
+    public function testNotation(): void
+    {
+        $piece = new Rook(Color::White, $this->space);
+
+        $this->assertEquals(Pieces::Rook->value, $piece->notation());
+    }
+
     public function testPossibleMovesReturnsPossibleMoves(): void
     {
         $piece = new Rook(Color::White, $this->space);

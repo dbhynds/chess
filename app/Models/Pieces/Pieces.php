@@ -2,12 +2,12 @@
 
 namespace App\Models\Pieces;
 
-enum Pieces
+enum Pieces: string
 {
-    case Pawn;
-    case Rook;
-    case Knight;
-    case Bishop;
-    case Queen;
-    case King;
+    case Pawn = '';
+    case Rook = 'R';
+    case Knight = 'N';
+    case Bishop = 'B';
+    case Queen = 'Q';
+    case King = 'K';
 }

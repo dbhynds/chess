@@ -32,6 +32,13 @@ class KnightTest extends TestCase
         $this->assertEquals(Pieces::Knight, $piece->name());
     }
 
+    public function testNotation(): void
+    {
+        $piece = new Knight(Color::White, $this->space);
+
+        $this->assertEquals(Pieces::Knight->value, $piece->notation());
+    }
+
     public function testPossibleMovesReturnsPossible(): void
     {
         $piece = new Knight(Color::White, $this->space);

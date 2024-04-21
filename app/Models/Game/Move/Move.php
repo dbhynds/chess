@@ -43,6 +43,38 @@ class Move
         return $this->newSpace;
     }
 
+    public function notation(): string
+    {
+        $pieces = [];
+        if ($this->isCastling()) {
+            if ($this->isDirection(Direction::Left)) {
+                $pieces[] = 'O-O-O';
+            } else {
+                $pieces[] = 'O-O';
+            }
+        // @todo add promotion
+        // } elseif ($this->isPromoting()) {
+        //     $pieces = [$this->newSpace()->name(), '=', $this->promotionPiece()->notation()];
+        } else {
+            if ($this->piece()->name() === Pieces::Pawn && $this->capturesAPiece()) {
+                $pieces[] = $this->originalSpace()->file()->value;
+            } elseif ($this->piece()->name() !== Pieces::Pawn) {
+                $pieces[] = $this->piece()->notation();
+                // @todo disambiguation
+                // $pieces[] = $this->disambiguation(),
+
+            }
+            if ($this->capturesAPiece()) {
+                $pieces[] = 'x';
+            }
+            $pieces[] = $this->newSpace()->name();
+        }
+
+        // @todo check
+
+        return implode($pieces);
+    }
+
     public function isOnTheBoard(): bool
     {
         return isset($this->newSpace);
@@ -168,8 +200,9 @@ class Move
 
     public function isCastling(): bool
     {
-        return $this->piece()->name === Pieces::King
-            && abs($this->vector()[0]) > 1;
+        return $this->piece()->name() === Pieces::King
+            && abs($this->vector()[0]) === 2
+            && $this->vector()[1] === 0;
     }
 
     private static function isAPosition(int $newX, int $newY): bool
