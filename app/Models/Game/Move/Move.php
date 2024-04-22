@@ -185,7 +185,7 @@ class Move
         return $path;
     }
 
-    public function isObstructed(): bool
+    public function isObstructed(?Move $potentialMove = null): bool
     {
         if (! $this->piece()->requiresAClearPath()) {
             return false;
@@ -193,7 +193,9 @@ class Move
 
         return array_reduce(
             $this->path(),
-            fn (bool $carry, Space $space) => $carry || $space->isOccupied(),
+            fn (bool $carry, Space $space) => $carry
+                || $space === $potentialMove?->newSpace()
+                || ($space !== $potentialMove?->originalSpace() && $space->isOccupied()),
             false);
     }
 

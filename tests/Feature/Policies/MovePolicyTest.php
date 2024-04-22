@@ -7,7 +7,9 @@ use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use App\Models\Game\Game;
 use App\Models\Game\Move\Move;
+use App\Models\Pieces\King;
 use App\Models\Pieces\Pawn;
+use App\Models\Pieces\Queen;
 use App\Models\Players\Color;
 use Illuminate\Support\Facades\Gate;
 use Tests\TestCase;
@@ -28,6 +30,13 @@ class MovePolicyTest extends TestCase
         // Move b2 to b8
         $b8 = new Space(File::b, Rank::i8);
         $move = Move::make($piece)->to($b8);
+        $this->assertFalse(Gate::allows('movePieceToSpace', $move));
+
+        // Queen b3 to a1
+        $b3 = new Space(File::b, Rank::i3);
+        $checkingQueen = new Queen(Color::Black, $b3);
+        $a1 = new Space(File::a, Rank::i1);
+        $move = Move::make($piece)->to($a1);
         $this->assertFalse(Gate::allows('movePieceToSpace', $move));
 
         // @todo test knights, castling, and en passant
@@ -79,5 +88,49 @@ class MovePolicyTest extends TestCase
         $game->place($opponent);
         $move = Move::make($piece)->to($c3);
         $this->assertTrue(Gate::allows('occupyTheNewSpace', $move));
+    }
+
+    public function testleavesTheKingWithoutCheck(): void
+    {
+        $a1 = new Space(File::a, Rank::i1);
+        $a2 = new Space(File::a, Rank::i2);
+        $b2 = new Space(File::b, Rank::i2);
+        $a3 = new Space(File::a, Rank::i3);
+        $b3 = new Space(File::b, Rank::i3);
+        $king = new King(Color::White, $a1);
+        $checkingQueen = new Queen(Color::Black, $a3);
+        $game = app(Game::class);
+
+        // The king is not in check to begin with
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $a2);
+        $game->place($queen);
+        $game->place(new Queen(Color::Black, $b3));
+        $move = Move::make($queen)->to($b2);
+        $this->assertTrue(Gate::allows('leavesTheKingWithoutCheck', $move));
+
+        // The queen blocks check
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $b2);
+        $game->place($queen);
+        $game->place($checkingQueen);
+        $move = Move::make($queen)->to($a2);
+        $this->assertTrue(Gate::allows('leavesTheKingWithoutCheck', $move));
+
+        // The queen captures opposing queen
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $b2);
+        $game->place($queen);
+        $game->place($checkingQueen);
+        $move = Move::make($queen)->to($a3);
+        $this->assertTrue(Gate::allows('leavesTheKingWithoutCheck', $move));
+
+        // The queen unblocks check
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $a2);
+        $game->place($queen);
+        $game->place($checkingQueen);
+        $move = Move::make($queen)->to($b2);
+        $this->assertFalse(Gate::allows('leavesTheKingWithoutCheck', $move));
     }
 }

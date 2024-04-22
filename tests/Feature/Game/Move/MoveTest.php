@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Game\Move;
+namespace Tests\Feature\Game\Move;
 
 use App\Models\Board\File;
 use App\Models\Board\Rank;
@@ -218,6 +218,9 @@ class MoveTest extends TestCase
 
     public function testCapturesAPiece(): void
     {
+        $game = app(Game::class)->start();
+        // Ensure the same instance always gets resolved
+        app()->instance(Game::class, $game);
         $black = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isBlack())->first();
         $white = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isWhite())->first();
 
@@ -233,6 +236,9 @@ class MoveTest extends TestCase
 
     public function testCapturedPiece(): void
     {
+        $game = app(Game::class)->start();
+        // Ensure the same instance always gets resolved
+        app()->instance(Game::class, $game);
         $black = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isBlack())->first();
         $white = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isWhite())->first();
 
@@ -354,6 +360,37 @@ class MoveTest extends TestCase
         $this->assertTrue($move->isObstructed());
 
         // @todo test pieces that don't require a clear path
+    }
+
+    public function testIsObstructedByPotentialMove(): void
+    {
+        $b2 = new Space(File::b, Rank::i2);
+        $b3 = new Space(File::b, Rank::i3);
+        $c3 = new Space(File::c, Rank::i3);
+        $d3 = new Space(File::d, Rank::i3);
+        $b4 = new Space(File::b, Rank::i4);
+        $piece = new Pawn(Color::White, $b2);
+        $game = app(Game::class);
+        // Ensure the same instance always gets resolved
+        app()->instance(Game::class, $game);
+
+        // Move is blocked by a potential move
+        $game->place($piece);
+        $move = Move::make($piece)->to($b4);
+        $blocker = new Pawn(Color::White, $c3);
+        $this->assertTrue($move->isObstructed(Move::make($blocker)->to($b3)));
+
+        // Potential move is unrelated to move
+        $game->reset()->place($piece);
+        $move = Move::make($piece)->to($b4);
+        $blocker = new Pawn(Color::White, $c3);
+        $this->assertFalse($move->isObstructed(Move::make($blocker)->to($d3)));
+
+        // Potential move unblocks move
+        $game->reset()->place($blocker);
+        $move = Move::make($piece)->to($b4);
+        $blocker = new Pawn(Color::White, $b3);
+        $this->assertFalse($move->isObstructed(Move::make($blocker)->to($c3)));
     }
 
     public function testIsCastling(): void

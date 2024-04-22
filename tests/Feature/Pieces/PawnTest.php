@@ -15,6 +15,7 @@ class PawnTest extends TestCase
     public function testWhiteQueenPawnAndBlackKingPawnAdvanceAndWhiteCaptures(): void
     {
         $game = app(Game::class);
+        $game->start();
 
         $d2 = new Space(File::d, Rank::i2);
         $d4 = new Space(File::d, Rank::i4);

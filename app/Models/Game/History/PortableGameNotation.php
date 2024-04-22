@@ -26,27 +26,29 @@ class PortableGameNotation
 
     public static function regex(): string
     {
+        $disambiguation = [
+            '(', self::file, '|', self::rank, '|', self::space, ')', self::zeroOrOne,
+        ];
+        $regularMove = [
+            '(', self::piece, ...$disambiguation, ')',
+            // Maybe captures
+            self::captures,
+            // Targe
+            self::space,
+        ];
+        $moveTypes = [
+            // Castling
+            '(',  self::castle, ')',
+            // Or pawn promotion
+            '|', '(', self::promotes, ')',
+            // Or regular move
+            '|',  '(', ...$regularMove, ')',
+        ];
+
         return implode([
             '/^',
-                '(',
-                    '(',
-                        // Castling
-                        self::castle,
-                    ')', '|', '(',
-                        // Pawn promotion
-                        self::promotes,
-                    ')', '|', '(',
-                        '(',
-                            self::piece,
-                            // Disambiguating
-                            '(', self::file, '|', self::rank, '|', self::space, ')', self::zeroOrOne,
-                        ')',
-                        // Maybe captures
-                        self::captures,
-                        self::space,
-                    ')',
-                ')',
-                self::checks,
+            '(', ...$moveTypes, ')',
+            self::checks,
             '$/',
         ]);
     }

@@ -29,13 +29,30 @@ class Game
 
     private Player $black;
 
+    private Player $currentTurn;
+
     public function __construct(private Board $board)
     {
         $this->white = new Player(Color::White);
         $this->black = new Player(Color::Black);
         $this->capturedPieces = collect([]);
         $this->activePieces = collect([]);
-        $this->setActivePieces();
+    }
+
+    public function reset(): self
+    {
+        $this->capturedPieces = collect([]);
+        $this->activePieces = collect([]);
+
+        return $this;
+    }
+
+    public function start(): self
+    {
+        $this->reset()->setActivePieces();
+        $this->currentTurn = $this->white();
+
+        return $this;
     }
 
     public function board(): Board
@@ -51,6 +68,11 @@ class Game
     public function black(): Player
     {
         return $this->black;
+    }
+
+    public function currentTurn(): Player
+    {
+        return $this->currentTurn;
     }
 
     /**

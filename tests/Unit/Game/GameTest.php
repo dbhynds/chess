@@ -48,23 +48,43 @@ class GameTest extends TestCase
         $this->assertCount(2, $game->players());
     }
 
+    public function testStart(): void
+    {
+        $game = app(Game::class)->start();
+
+        $this->assertEquals(32, $game->activePieces()->count());
+        $this->assertEquals(0, $game->capturedPieces()->count());
+        $this->assertEquals(Color::White, $game->currentTurn()->color());
+    }
+
+    public function testReset(): void
+    {
+        $game = app(Game::class)->start();
+        $game->activePieces()->first()->capture();
+
+        $game->reset();
+
+        $this->assertEquals(0, $game->activePieces()->count());
+        $this->assertEquals(0, $game->capturedPieces()->count());
+    }
+
     public function testActivePiecesReturnsActivePieces(): void
     {
-        $game = app(Game::class);
+        $game = app(Game::class)->start();
 
         $this->assertEquals(32, $game->activePieces()->count());
     }
 
     public function testCapturedPiecesIsEmpty(): void
     {
-        $game = app(Game::class);
+        $game = app(Game::class)->start();
 
         $this->assertEquals(0, $game->capturedPieces()->count());
     }
 
     public function testMoveMovesAPiece(): void
     {
-        $game = app(Game::class);
+        $game = app(Game::class)->start();
         $piece = $game->activePieces()->first();
         $oldSpace = $piece->space();
         $d4 = new Space(File::d, Rank::i4);
@@ -82,7 +102,7 @@ class GameTest extends TestCase
 
     public function testHasAPieceOn(): void
     {
-        $game = app(Game::class);
+        $game = app(Game::class)->start();
 
         $piece = $game->activePieces()->first();
         $this->assertTrue($game->hasAPieceOn($piece->space()));
@@ -93,7 +113,7 @@ class GameTest extends TestCase
 
     public function testPieceOn(): void
     {
-        $game = app(Game::class);
+        $game = app(Game::class)->start();
         $piece = $game->activePieces()->first();
 
         $this->assertEquals($piece, $game->pieceOn($piece->space()));
