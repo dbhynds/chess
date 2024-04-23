@@ -11,9 +11,8 @@ class MovePolicy
 {
     public function can(?User $user, Move $move): bool
     {
-        // @todo prevent if king in check and it doesn't block
-        // @todo prevent if move puts king in check
         // @todo prevent if special move (castling, en passant) is prohibited
+        // @todo check spaces between king and rook when castling
         return $this->movePieceToSpace($user, $move)
             && $this->travelToTheNewSpace($user, $move)
             && $this->occupyTheNewSpace($user, $move)
