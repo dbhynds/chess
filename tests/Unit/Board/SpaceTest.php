@@ -57,4 +57,15 @@ class SpaceTest extends TestCase
 
         $this->assertEquals(7, $space->filePosition());
     }
+
+    public function testIs(): void
+    {
+        $space = new Space(File::a, Rank::i1);
+        $this->assertTrue($space->is($space));
+
+        $otherSpace = new Space(File::h, Rank::i1);
+        $this->assertFalse($space->is($otherSpace));
+
+        $this->assertFalse($space->is(null));
+    }
 }

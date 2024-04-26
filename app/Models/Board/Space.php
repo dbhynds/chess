@@ -53,7 +53,6 @@ class Space
 
     public function is(?Space $space): bool
     {
-        // @todo test
         return $this->name() === $space?->name();
     }
 }

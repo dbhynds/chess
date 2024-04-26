@@ -185,6 +185,15 @@ class Move
         return $path;
     }
 
+    public function belongsToThePiece(): bool
+    {
+        return array_reduce(
+            $this->piece()->moves(),
+            fn (bool $carry, Move $possibleMove) => $carry || $possibleMove->newSpace()->is($this->newSpace()),
+            false
+        );
+    }
+
     public function isObstructed(?Move $potentialMove = null): bool
     {
         if (! $this->piece()->requiresAClearPath()) {

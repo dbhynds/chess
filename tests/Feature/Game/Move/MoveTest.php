@@ -334,6 +334,32 @@ class MoveTest extends TestCase
         $this->assertEquals([$d5, $d6, $d7], $move->path());
     }
 
+    public function testBelongsToThePiece(): void
+    {
+        $b2 = new Space(File::b, Rank::i2);
+        $piece = new Pawn(Color::White, $b2);
+        app(Game::class)->place($piece);
+
+        // Move b2 to b4
+        $b4 = new Space(File::b, Rank::i4);
+        $move = Move::make($piece)->to($b4);
+        $this->assertTrue($move->belongsToThePiece());
+
+        // Move b2 to b8
+        $b8 = new Space(File::b, Rank::i8);
+        $move = Move::make($piece)->to($b8);
+        $this->assertFalse($move->belongsToThePiece());
+
+        // Queen b3 to a1
+        $b3 = new Space(File::b, Rank::i3);
+        $checkingQueen = new Queen(Color::Black, $b3);
+        $a1 = new Space(File::a, Rank::i1);
+        $move = Move::make($piece)->to($a1);
+        $this->assertFalse($move->belongsToThePiece());
+
+        // @todo test knights, castling, and en passant
+    }
+
     public function testIsObstructed(): void
     {
         $b2 = new Space(File::b, Rank::i2);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\MovePolicy;
+namespace Tests\Feature\Policies;
 
 use App\Models\Board\File;
 use App\Models\Board\Rank;
@@ -90,7 +90,7 @@ class MovePolicyTest extends TestCase
         $this->assertTrue(Gate::allows('occupyTheNewSpace', $move));
     }
 
-    public function testleavesTheKingWithoutCheck(): void
+    public function testLeavesTheKingWithoutCheck(): void
     {
         $a1 = new Space(File::a, Rank::i1);
         $a2 = new Space(File::a, Rank::i2);

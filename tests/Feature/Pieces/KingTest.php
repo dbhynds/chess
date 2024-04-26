@@ -1,12 +1,15 @@
 <?php
 
-namespace Tests\Unit\Pieces;
+namespace Tests\Feature\Pieces;
 
 use App\Models\Board\File;
 use App\Models\Board\Rank;
 use App\Models\Board\Space;
+use App\Models\Game\Game;
+use App\Models\Game\Move\Move;
 use App\Models\Pieces\King;
 use App\Models\Pieces\Pieces;
+use App\Models\Pieces\Queen;
 use App\Models\Players\Color;
 use Tests\TestCase;
 
@@ -78,47 +81,48 @@ class KingTest extends TestCase
         // }
     }
 
-    // public function testIsInCheck(): void
-    // {
-    //     $a1 = new Space(File::a, Rank::i1);
-    //     $a2 = new Space(File::a, Rank::i2);
-    //     $b2 = new Space(File::b, Rank::i2);
-    //     $a3 = new Space(File::a, Rank::i3);
-    //     $b3 = new Space(File::b, Rank::i3);
-    //     $king = new King(Color::White, $a1);
-    //     $checkingQueen = new Queen(Color::Black, $a3);
-    //     $game = app(Game::class);
+    public function testIsInCheckAfter(): void
+    {
+        $a1 = new Space(File::a, Rank::i1);
+        $a2 = new Space(File::a, Rank::i2);
+        $b2 = new Space(File::b, Rank::i2);
+        $a3 = new Space(File::a, Rank::i3);
+        $b3 = new Space(File::b, Rank::i3);
+        $king = new King(Color::White, $a1);
+        $checkingQueen = new Queen(Color::Black, $a3);
+        $game = app(Game::class);
+        app()->instance(Game::class, $game);
 
-    //     // The king is not in check to begin with
-    //     $game->reset()->place($king);
-    //     $queen = new Queen(Color::White, $a2);
-    //     $game->place($queen);
-    //     $game->place(new Queen(Color::Black, $b3));
-    //     $move = Move::make($queen)->to($b2);
-    //     $this->assertTrue(Gate::allows('leavesTheKingWithoutCheck', $move));
+        // The king is not in check to begin with
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $a2);
+        $game->place($queen);
+        $game->place(new Queen(Color::Black, $b3));
+        $move = Move::make($queen)->to($b2);
+        $this->assertFalse($king->isInCheckAfter($move));
 
-    //     // The queen blocks check
-    //     $game->reset()->place($king);
-    //     $queen = new Queen(Color::White, $b2);
-    //     $game->place($queen);
-    //     $game->place($checkingQueen);
-    //     $move = Move::make($queen)->to($a2);
-    //     $this->assertTrue(Gate::allows('leavesTheKingWithoutCheck', $move));
+        // The queen blocks check
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $b2);
+        $game->place($queen);
+        $game->place($checkingQueen);
+        $move = Move::make($queen)->to($a2);
+        $this->assertFalse($king->isInCheckAfter($move));
 
-    //     // The queen captures opposing queen
-    //     $game->reset()->place($king);
-    //     $queen = new Queen(Color::White, $b2);
-    //     $game->place($queen);
-    //     $game->place($checkingQueen);
-    //     $move = Move::make($queen)->to($a3);
-    //     $this->assertTrue(Gate::allows('leavesTheKingWithoutCheck', $move));
+        // The queen captures opposing queen
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $b2);
+        $game->place($queen);
+        $game->place($checkingQueen);
+        $move = Move::make($queen)->to($a3);
+        $this->assertFalse($king->isInCheckAfter($move));
 
-    //     // The queen unblocks check
-    //     $game->reset()->place($king);
-    //     $queen = new Queen(Color::White, $a2);
-    //     $game->place($queen);
-    //     $game->place($checkingQueen);
-    //     $move = Move::make($queen)->to($b2);
-    //     $this->assertFalse(Gate::allows('leavesTheKingWithoutCheck', $move));
-    // }
+        // The queen unblocks check
+        $game->reset()->place($king);
+        $queen = new Queen(Color::White, $a2);
+        $game->place($queen);
+        $game->place($checkingQueen);
+        $move = Move::make($queen)->to($b2);
+        $this->assertTrue($king->isInCheckAfter($move));
+    }
 }

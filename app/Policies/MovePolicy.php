@@ -21,11 +21,7 @@ class MovePolicy
 
     public function movePieceToSpace(?User $user, Move $move): bool
     {
-        return array_reduce(
-            $move->piece()->moves(),
-            fn (bool $carry, Move $possibleMove) => $carry || $possibleMove->newSpace()->is($move->newSpace()),
-            false
-        );
+        return $move->belongsTothePiece();
     }
 
     public function travelToTheNewSpace(?User $user, Move $move): bool
