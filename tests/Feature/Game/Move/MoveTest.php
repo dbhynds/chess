@@ -12,7 +12,7 @@ use App\Models\Pieces\King;
 use App\Models\Pieces\Pawn;
 use App\Models\Pieces\Queen;
 use App\Models\Players\Color;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class MoveTest extends TestCase
 {
@@ -219,8 +219,6 @@ class MoveTest extends TestCase
     public function testCapturesAPiece(): void
     {
         $game = app(Game::class)->start();
-        // Ensure the same instance always gets resolved
-        app()->instance(Game::class, $game);
         $black = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isBlack())->first();
         $white = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isWhite())->first();
 
@@ -237,8 +235,6 @@ class MoveTest extends TestCase
     public function testCapturedPiece(): void
     {
         $game = app(Game::class)->start();
-        // Ensure the same instance always gets resolved
-        app()->instance(Game::class, $game);
         $black = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isBlack())->first();
         $white = app(Game::class)->activePieces()->filter(fn ($piece) => $piece->isWhite())->first();
 
@@ -345,8 +341,6 @@ class MoveTest extends TestCase
         $b4 = new Space(File::b, Rank::i4);
         $piece = new Pawn(Color::White, $b2);
         $game = app(Game::class);
-        // Ensure the same instance always gets resolved
-        app()->instance(Game::class, $game);
 
         // Place a piece with no blockers
         $game->place($piece);
@@ -371,25 +365,26 @@ class MoveTest extends TestCase
         $b4 = new Space(File::b, Rank::i4);
         $piece = new Pawn(Color::White, $b2);
         $game = app(Game::class);
-        // Ensure the same instance always gets resolved
-        app()->instance(Game::class, $game);
 
         // Move is blocked by a potential move
         $game->place($piece);
         $move = Move::make($piece)->to($b4);
         $blocker = new Pawn(Color::White, $c3);
+        $game->place($blocker);
         $this->assertTrue($move->isObstructed(Move::make($blocker)->to($b3)));
 
         // Potential move is unrelated to move
         $game->reset()->place($piece);
         $move = Move::make($piece)->to($b4);
         $blocker = new Pawn(Color::White, $c3);
+        $game->place($blocker);
         $this->assertFalse($move->isObstructed(Move::make($blocker)->to($d3)));
 
         // Potential move unblocks move
         $game->reset()->place($blocker);
         $move = Move::make($piece)->to($b4);
         $blocker = new Pawn(Color::White, $b3);
+        $game->place($blocker);
         $this->assertFalse($move->isObstructed(Move::make($blocker)->to($c3)));
     }
 
@@ -454,8 +449,6 @@ class MoveTest extends TestCase
         $c3 = new Space(File::c, Rank::i3);
 
         $game = app(Game::class);
-        // Ensure the same instance always gets resolved
-        app()->instance(Game::class, $game);
 
         // Place a piece
         $piece = new Queen(Color::White, $b2);
@@ -481,8 +474,6 @@ class MoveTest extends TestCase
         $c3 = new Space(File::c, Rank::i3);
 
         $game = app(Game::class);
-        // Ensure the same instance always gets resolved
-        app()->instance(Game::class, $game);
 
         // Place a piece
         $piece = new Pawn(Color::White, $b2);

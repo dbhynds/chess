@@ -23,7 +23,7 @@ class MovePolicy
     {
         return array_reduce(
             $move->piece()->moves(),
-            fn (bool $carry, Move $possibleMove) => $carry || $possibleMove->newSpace()->name() === $move->newSpace()->name(),
+            fn (bool $carry, Move $possibleMove) => $carry || $possibleMove->newSpace()->is($move->newSpace()),
             false
         );
     }
@@ -66,7 +66,7 @@ class MovePolicy
                            // The move is in the piece's possible moves
                            && $this->movePieceToSpace($user, $nextMove)
                            // The piece isn't blocked if moving to the new space
-                           && $nextMove->isObstructed($move)
+                           && ! $nextMove->isObstructed($move)
                     );
             }, false);
     }

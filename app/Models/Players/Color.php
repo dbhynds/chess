@@ -2,8 +2,8 @@
 
 namespace App\Models\Players;
 
-enum Color
+enum Color: string
 {
-    case Black;
-    case White;
+    case Black = 'b';
+    case White = 'w';
 }

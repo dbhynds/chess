@@ -177,4 +177,18 @@ class Game
     {
         return $this->activePieces()->get($space->name());
     }
+
+    public function dump(): void
+    {
+        $pieces = [];
+        $this->activePieces()->each(function ($piece) use (&$pieces) {
+            $pieces[] = implode([
+                $piece->color()->value,
+                $piece->name()->value,
+                $piece->space()->name(),
+            ]);
+        });
+
+        dump(implode(' ', $pieces));
+    }
 }

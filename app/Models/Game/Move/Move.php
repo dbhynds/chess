@@ -194,8 +194,8 @@ class Move
         return array_reduce(
             $this->path(),
             fn (bool $carry, Space $space) => $carry
-                || $space === $potentialMove?->newSpace()
-                || ($space !== $potentialMove?->originalSpace() && $space->isOccupied()),
+                || $space->is($potentialMove?->newSpace())
+                || (! $space->is($potentialMove?->originalSpace()) && $space->isOccupied()),
             false);
     }
 
@@ -204,6 +204,16 @@ class Move
         return $this->piece()->name() === Pieces::King
             && abs($this->vector()[0]) === 2
             && $this->vector()[1] === 0;
+    }
+
+    public function dump(): void
+    {
+        dump(implode([
+            $this->piece()->color()->value,
+            $this->piece()->name()->value,
+            $this->originalSpace()->name(),
+            $this->newSpace()->name(),
+        ]));
     }
 
     private static function isAPosition(int $newX, int $newY): bool

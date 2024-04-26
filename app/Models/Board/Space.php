@@ -50,4 +50,10 @@ class Space
     {
         return app(Game::class)->pieceOn($this);
     }
+
+    public function is(?Space $space): bool
+    {
+        // @todo test
+        return $this->name() === $space?->name();
+    }
 }
