@@ -69,7 +69,10 @@ class Move
             $pieces[] = $this->newSpace()->name();
         }
 
-        // @todo check
+        if ($this->piece()->opponent()->king()?->isInCheckAfter($this)) {
+            $pieces[] = '+';
+            // @todo checkmate
+        }
 
         return implode($pieces);
     }

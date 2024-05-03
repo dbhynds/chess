@@ -188,4 +188,29 @@ class PawnTest extends TestCase
         $this->assertFalse($white->canCapture($white));
         $this->assertFalse($black->canCapture($black));
     }
+
+    public function testIsPieceOn(): void
+    {
+        $d4 = new Space(File::d, Rank::i4);
+        $e5 = new Space(File::e, Rank::i5);
+        $black = new Pawn(Color::Black, $d4);
+        $white = new Pawn(Color::White, $d4);
+
+        $this->assertTrue($white->isPieceOn($white, $d4));
+        $this->assertTrue($black->isPieceOn($black, $d4));
+        $this->assertFalse($white->isPieceOn($black, $d4));
+        $this->assertFalse($black->isPieceOn($white, $d4));
+        $this->assertFalse($white->isPieceOn($white, $e5));
+        $this->assertFalse($black->isPieceOn($black, $e5));
+    }
+
+    public function testClone(): void
+    {
+        $piece = new Pawn(Color::White, $this->space);
+
+        $clone = $piece->clone();
+
+        $this->assertEquals($piece, $clone);
+        $this->assertTrue($piece->isPieceOn($clone, $clone->space()));
+    }
 }

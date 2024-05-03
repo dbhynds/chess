@@ -461,6 +461,22 @@ class MoveTest extends TestCase
         $this->assertEquals('O-O-O', $move->notation());
     }
 
+    public function testNotationForCheck(): void
+    {
+        $a1 = new Space(File::a, Rank::i1);
+        $h3 = new Space(File::h, Rank::i3);
+        $a3 = new Space(File::a, Rank::i3);
+        $king = new King(Color::White, $a1);
+        $queen = new Queen(Color::Black, $h3);
+
+        $game = app(Game::class);
+        $game->place($king);
+        $game->place($queen);
+
+        $move = Move::make($queen)->to($a3);
+        $this->assertEquals('Qa3+', $move->notation());
+    }
+
     public function testNotationForPromotion(): void
     {
         // @todo

@@ -7,7 +7,6 @@ use App\Models\Board\Rank;
 use App\Models\Board\Space;
 use App\Models\Pieces\Pieces;
 use App\Models\Pieces\Queen;
-use App\Models\Pieces\King;
 use App\Models\Players\Color;
 use PHPUnit\Framework\TestCase;
 

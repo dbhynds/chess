@@ -57,6 +57,11 @@ class King extends Piece
             // Filter to opposing pieces
             ->filter(fn ($piece) => $piece->color() !== $this->color())
             ->reduce(function ($carry, $piece) use ($move) {
+                // If this is the piece we're moving, pretend it's on the new space already
+                if ($piece->isPieceOn($move->piece(), $move->originalSpace())) {
+                    $piece = $piece->clone();
+                    $piece->setSpace($move->newSpace());
+                }
                 // Hypothical next move to capture the king
                 $nextMove = Move::make($piece)->to($this->space());
 

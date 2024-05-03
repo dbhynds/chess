@@ -8,6 +8,7 @@ use App\Models\Board\Space;
 use App\Models\Game\Game;
 use App\Models\Game\Move\Move;
 use App\Models\Pieces\Pawn;
+use App\Models\Players\Color;
 use Tests\TestCase;
 
 class PawnTest extends TestCase
@@ -36,5 +37,31 @@ class PawnTest extends TestCase
         $this->assertInstanceOf(Pawn::class, $capturedPiece);
         $this->assertTrue($capturedPiece->isBlack());
         $this->assertTrue($capturedPiece->isCaptured());
+    }
+
+    public function testPlayer(): void
+    {
+        $a2 = new Space(File::a, Rank::i2);
+        $pawn = new Pawn(Color::White, $a2);
+
+        $this->assertEquals(Color::White, $pawn->player()->color());
+
+        $a2 = new Space(File::a, Rank::i2);
+        $pawn = new Pawn(Color::Black, $a2);
+
+        $this->assertEquals(Color::Black, $pawn->player()->color());
+    }
+
+    public function testOpponent(): void
+    {
+        $a2 = new Space(File::a, Rank::i2);
+        $pawn = new Pawn(Color::White, $a2);
+
+        $this->assertEquals(Color::Black, $pawn->opponent()->color());
+
+        $a2 = new Space(File::a, Rank::i2);
+        $pawn = new Pawn(Color::Black, $a2);
+
+        $this->assertEquals(Color::White, $pawn->opponent()->color());
     }
 }

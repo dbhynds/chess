@@ -6,6 +6,7 @@ use App\Models\Board\Space;
 use App\Models\Game\Game;
 use App\Models\Game\Move\Move;
 use App\Models\Players\Color;
+use App\Models\Players\Player;
 use App\Models\Traits\HasAColor;
 
 abstract class Piece
@@ -16,6 +17,11 @@ abstract class Piece
 
     public function __construct(private Color $color, private ?Space $space)
     {
+    }
+
+    public function clone(): static
+    {
+        return new static($this->color, $this->space);
     }
 
     abstract public function name(): Pieces;
@@ -65,8 +71,29 @@ abstract class Piece
         return array_filter($this->possibleMoves(), fn (Move $move) => $move->isOnTheBoard());
     }
 
+    final public function player(bool $isSelf = true): Player
+    {
+        if ($this->color() === Color::White xor ! $isSelf) {
+            return app(Game::class)->white();
+        } else {
+            return app(Game::class)->black();
+        }
+    }
+
+    final public function opponent(): Player
+    {
+        return $this->player(false);
+    }
+
     public function canCapture(Piece $piece): bool
     {
         return $this->color() !== $piece->color();
+    }
+
+    public function isPieceOn(Piece $piece, Space $space): bool
+    {
+        return $this->color() === $piece->color()
+            && $this->name() === $piece->name()
+            && $this->space()->name() === $space->name();
     }
 }
