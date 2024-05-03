@@ -52,8 +52,6 @@ class King extends Piece
 
     public function isInCheckAfter(?Move $move): bool
     {
-        app(Game::class)->dump();
-
         return app(Game::class)
             ->activePieces()
             // Filter to opposing pieces
@@ -61,21 +59,9 @@ class King extends Piece
             ->reduce(function ($carry, $piece) use ($move) {
                 // Hypothical next move to capture the king
                 $nextMove = Move::make($piece)->to($this->space());
-                $move->dump();
-                $nextMove->dump();
-
-                dump(
-                    $piece->requiresAClearPath(),
-                    // The move doesn't capture this piece
-                    (! $move->capturesAPiece() || $move->capturedPiece() !== $piece),
-                    // The move is in the piece's possible moves
-                    $nextMove->belongsToThePiece(),
-                    // The piece isn't blocked if moving to the new space
-                    ! $nextMove->isObstructed($move)
-                );
 
                 return $carry
-                    || ! (
+                    || (
                         // The piece can be blocked
                         $piece->requiresAClearPath()
                            // The move doesn't capture this piece
